@@ -6,6 +6,11 @@ plugins {
 android {
     compileSdk 31
 
+    // Подключение viewBinding к проекту
+    buildFeatures {
+        viewBinding true
+    }
+
     defaultConfig {
         applicationId "ru.geekbrains.lessions2345.yandexweather"
         minSdk 24
