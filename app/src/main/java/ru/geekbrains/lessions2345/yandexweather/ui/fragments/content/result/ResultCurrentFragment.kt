@@ -8,9 +8,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import ru.geekbrains.lessions2345.yandexweather.R
 import ru.geekbrains.lessions2345.yandexweather.databinding.FragmentResultCurrentBinding
-import ru.geekbrains.lessions2345.yandexweather.ui.fragments.content.result.viewmodel.ResultCurrentViewModel
+import ru.geekbrains.lessions2345.yandexweather.controller.observers.ui.viewmodels.ResultCurrentViewModel
 
 class ResultCurrentFragment: Fragment() {
     // Фабричный метод создания фрагмента

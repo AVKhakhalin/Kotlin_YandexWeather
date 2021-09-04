@@ -1,6 +1,5 @@
-package ru.geekbrains.lessions2345.yandexweather.ui.fragments.content.result.viewmodel
+package ru.geekbrains.lessions2345.yandexweather.controller.observers.ui.viewmodels
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import java.lang.Thread.sleep
