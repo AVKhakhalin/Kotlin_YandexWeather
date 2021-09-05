@@ -11,7 +11,7 @@ class ForecastsParts (
     tempAvg: Float,     // temp_avg    Cредняя температура для времени суток (°C).	Число
     feelsLike: Float,   // feels_like  Ощущаемая температура (°C).	Число
     iconCode: String,   // icon        Код иконки погоды. Иконка доступна по адресу https://yastatic.net/weather/i/icons/funky/dark/<значение из поля icon>.svg.	Строка
-    conditionCode: Int, // condition   Код расшифровки погодного описания. Возможные значения:
+    conditionCode: String, // condition   Код расшифровки погодного описания. Возможные значения:
                         //   clear — ясно.
                         //   partly-cloudy — малооблачно.
                         //   cloudy — облачно с прояснениями.

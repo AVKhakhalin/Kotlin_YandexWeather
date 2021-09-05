@@ -10,5 +10,4 @@ class RepositoryWeatherImpl : RepositoryWeather {
     override fun getWeatherFromLocalSource(): DataWeather {
         return DataWeather()
     }
-
 }

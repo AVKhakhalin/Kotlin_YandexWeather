@@ -2,11 +2,11 @@ package ru.geekbrains.lessions2345.yandexweather.domain.data
 
 data class DataWeather(
     val city: City = getDefaultCity(),
-    val temperature: Float, //temp	Температура (°C).	Число
-    val feelsLike: Float,   //feels_like	Ощущаемая температура (°C).	Число
-    val tempWater: Float,   // temp_water	Температура воды (°C). Параметр возвращается для населенных пунктов, где данная информация актуальна.	Число
-    val iconCode: String,   // icon	Код иконки погоды. Иконка доступна по адресу https://yastatic.net/weather/i/icons/funky/dark/<значение из поля icon>.svg.	Строка
-    val conditionCode: Int, // condition	Код расшифровки погодного описания. Возможные значения:
+    val temperature: Float = 10f, //temp	Температура (°C).	Число
+    val feelsLike: Float = 10f,   //feels_like	Ощущаемая температура (°C).	Число
+    val tempWater: Float = 9f,   // temp_water	Температура воды (°C). Параметр возвращается для населенных пунктов, где данная информация актуальна.	Число
+    val iconCode: String = "icon",   // icon	Код иконки погоды. Иконка доступна по адресу https://yastatic.net/weather/i/icons/funky/dark/<значение из поля icon>.svg.	Строка
+    val conditionCode: String = "clear", // condition	Код расшифровки погодного описания. Возможные значения:
                             //    clear — ясно.
                             //    partly-cloudy — малооблачно.
                             //    cloudy — облачно с прояснениями.
@@ -26,9 +26,9 @@ data class DataWeather(
                             //    thunderstorm — гроза.
                             //    thunderstorm-with-rain — дождь с грозой.
                             //    thunderstorm-with-hail — гроза с градом.	Строка
-    val windSpeed: Float,   // wind_speed	Скорость ветра (в м/с).	Число
-    val windGust: Float,    // wind_gust	Скорость порывов ветра (в м/с).	Число
-    val windDirection: String,  // wind_dir	Направление ветра. Возможные значения:
+    val windSpeed: Float = 1f,   // wind_speed	Скорость ветра (в м/с).	Число
+    val windGust: Float = 1f,    // wind_gust	Скорость порывов ветра (в м/с).	Число
+    val windDirection: String = "nw",  // wind_dir	Направление ветра. Возможные значения:
                                 //    «nw» — северо-западное.
                                 //    «n» — северное.
                                 //    «ne» — северо-восточное.
@@ -38,14 +38,14 @@ data class DataWeather(
                                 //    «sw» — юго-западное.
                                 //    «w» — западное.
                                 //    «с» — штиль.	Строка
-    val mmPresure: Float,       // pressure_mm	Давление (в мм рт. ст.).	Число
-    val paPressure: Float,      // pressure_pa	Давление (в гектопаскалях).	Число
-    val humidity: Float,     // humidity	Влажность воздуха (в процентах).	Число
-    val dayTime: String,     // daytime	Светлое или темное время суток. Возможные значения:
+    val mmPresure: Float = 760f,       // pressure_mm	Давление (в мм рт. ст.).	Число
+    val paPressure: Float = 1013f,      // pressure_pa	Давление (в гектопаскалях).	Число
+    val humidity: Float = 70f,     // humidity	Влажность воздуха (в процентах).	Число
+    val dayTime: String = "d",     // daytime	Светлое или темное время суток. Возможные значения:
                              //    «d» — светлое время суток.
                              //    «n» — темное время суток.	Строка
-    val polar: Boolean,      // polar	Признак того, что время суток, указанное в поле daytime, является полярным.	Логический
-    val season: String,      // season	Время года в данном населенном пункте. Возможные значения:
+    val polar: Boolean = false,      // polar	Признак того, что время суток, указанное в поле daytime, является полярным.	Логический
+    val season: String = "summer",      // season	Время года в данном населенном пункте. Возможные значения:
                              //    «summer» — лето.
                              //    «autumn» — осень.
                              //    «winter» — зима.
