@@ -14,6 +14,7 @@ import ru.geekbrains.lessions2345.yandexweather.controller.observers.domain.Publ
 import ru.geekbrains.lessions2345.yandexweather.databinding.FragmentResultCurrentBinding
 import ru.geekbrains.lessions2345.yandexweather.controller.observers.viewmodels.ResultCurrentViewModel
 import ru.geekbrains.lessions2345.yandexweather.controller.observers.viewmodels.ResultCurrentViewModelSetter
+import ru.geekbrains.lessions2345.yandexweather.domain.data.DataWeather
 import ru.geekbrains.lessions2345.yandexweather.domain.data.Fact
 import ru.geekbrains.lessions2345.yandexweather.ui.activities.MainActivity
 
@@ -64,9 +65,10 @@ class ResultCurrentFragment : Fragment() {
         // Создание viewModel
 //        viewModel = ViewModelProvider(this).get(ResultCurrentViewModel::class.java)
         // Создание observer
-        resultCurrentViewModel.getLiveData().observe(viewLifecycleOwner, Observer<Fact> {fact: Fact ->
-           if (fact != null) {
-               Toast.makeText(context, "Температура в Москве ${fact.temp}", Toast.LENGTH_LONG).show()
+//        resultCurrentViewModel.getLiveData().observe(viewLifecycleOwner, Observer<Fact> {fact: Fact ->
+        resultCurrentViewModel.getLiveData().observe(viewLifecycleOwner, Observer<DataWeather> {dataWeather: DataWeather ->
+           if (dataWeather != null) {
+               Toast.makeText(context, "Температура в Москве ${dataWeather.temperature}", Toast.LENGTH_LONG).show()
            } else {
                Toast.makeText(context, "К серверу обратиться не получилось", Toast.LENGTH_LONG).show()
            }

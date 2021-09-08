@@ -1,12 +1,12 @@
 package ru.geekbrains.lessions2345.yandexweather.domain.data
 
 data class DataWeather(
-    private val city: City = getDefaultCity(),
-    private val temperature: Float = 10f, //temp	Температура (°C).	Число
-    private val feelsLike: Float = 10f,   //feels_like	Ощущаемая температура (°C).	Число
-    private val tempWater: Float = 9f,   // temp_water	Температура воды (°C). Параметр возвращается для населенных пунктов, где данная информация актуальна.	Число
-    private val iconCode: String = "icon",   // icon	Код иконки погоды. Иконка доступна по адресу https://yastatic.net/weather/i/icons/funky/dark/<значение из поля icon>.svg.	Строка
-    private val conditionCode: String = "clear", // condition	Код расшифровки погодного описания. Возможные значения:
+    var city: City? = null,
+    var temperature: Float? = null, //temp	Температура (°C).	Число
+    var feelsLike: Float? = null,   //feels_like	Ощущаемая температура (°C).	Число
+    var tempWater: Float? = null,   // temp_water	Температура воды (°C). Параметр возвращается для населенных пунктов, где данная информация актуальна.	Число
+    var iconCode: String? = null,   // icon	Код иконки погоды. Иконка доступна по адресу https://yastatic.net/weather/i/icons/funky/dark/<значение из поля icon>.svg.	Строка
+    var conditionCode: String? = null, // condition	Код расшифровки погодного описания. Возможные значения:
                             //    clear — ясно.
                             //    partly-cloudy — малооблачно.
                             //    cloudy — облачно с прояснениями.
@@ -26,9 +26,9 @@ data class DataWeather(
                             //    thunderstorm — гроза.
                             //    thunderstorm-with-rain — дождь с грозой.
                             //    thunderstorm-with-hail — гроза с градом.	Строка
-    private val windSpeed: Float = 1f,   // wind_speed	Скорость ветра (в м/с).	Число
-    private val windGust: Float = 1f,    // wind_gust	Скорость порывов ветра (в м/с).	Число
-    private val windDirection: String = "nw",  // wind_dir	Направление ветра. Возможные значения:
+    var windSpeed: Float? = null,   // wind_speed	Скорость ветра (в м/с).	Число
+    var windGust: Float? = null,    // wind_gust	Скорость порывов ветра (в м/с).	Число
+    var windDirection: String? = null,  // wind_dir	Направление ветра. Возможные значения:
                                 //    «nw» — северо-западное.
                                 //    «n» — северное.
                                 //    «ne» — северо-восточное.
@@ -38,18 +38,16 @@ data class DataWeather(
                                 //    «sw» — юго-западное.
                                 //    «w» — западное.
                                 //    «с» — штиль.	Строка
-    private val mmPresure: Float = 760f,       // pressure_mm	Давление (в мм рт. ст.).	Число
-    private val paPressure: Float = 1013f,      // pressure_pa	Давление (в гектопаскалях).	Число
-    private val humidity: Float = 70f,     // humidity	Влажность воздуха (в процентах).	Число
-    private val dayTime: String = "d",     // daytime	Светлое или темное время суток. Возможные значения:
+    var mmPresure: Float? = null,       // pressure_mm	Давление (в мм рт. ст.).	Число
+    var paPressure: Float? = null,      // pressure_pa	Давление (в гектопаскалях).	Число
+    var humidity: Float? = null,     // humidity	Влажность воздуха (в процентах).	Число
+    var dayTime: String? = null,     // daytime	Светлое или темное время суток. Возможные значения:
                              //    «d» — светлое время суток.
                              //    «n» — темное время суток.	Строка
-    private val polar: Boolean = false,      // polar	Признак того, что время суток, указанное в поле daytime, является полярным.	Логический
-    private val season: String = "summer",      // season	Время года в данном населенном пункте. Возможные значения:
+    var polar: Boolean? = null,      // polar	Признак того, что время суток, указанное в поле daytime, является полярным.	Логический
+    var season: String? = null,      // season	Время года в данном населенном пункте. Возможные значения:
                              //    «summer» — лето.
                              //    «autumn» — осень.
                              //    «winter» — зима.
                              //    «spring» — весна.	Строка
 )
-
-private fun getDefaultCity() = City("Москва", 55.0, 37.0)

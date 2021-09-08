@@ -11,14 +11,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
+import ru.geekbrains.lessions2345.yandexweather.domain.data.DataModel
 import ru.geekbrains.lessions2345.yandexweather.domain.data.DataWeather
 import ru.geekbrains.lessions2345.yandexweather.domain.data.Fact
+import ru.geekbrains.lessions2345.yandexweather.domain.facade.MainChooserSetter
 import ru.geekbrains.lessions2345.yandexweather.repository.ConstantsRepository
 import ru.geekbrains.lessions2345.yandexweather.ui.activities.MainActivity
 
-class RepositoryWeatherImpl(mainActivity: MainActivity) : RepositoryWeather {
+class RepositoryWeatherImpl(mainChooserSetter: MainChooserSetter) : RepositoryWeather {
     private val retrofitImpl: RetrofitImpl = RetrofitImpl()
-    private val mainActivity: MainActivity = mainActivity
+    private val mainChooserSetter: MainChooserSetter = mainChooserSetter
 
     // Получение данных с сервера Yandex
     override fun getWeatherFromRemoteSource(lat: Double, lon: Double, lang: String) {
@@ -30,6 +32,7 @@ class RepositoryWeatherImpl(mainActivity: MainActivity) : RepositoryWeather {
         return DataWeather()
     }
 
+    //region МЕТОДЫ ПОЛУЧЕНИЯ ДАННЫХ С СЕРВЕРА YANDEX
     private fun sendServerRequest(lat: Double, lon: Double, lang: String) {
         retrofitImpl.getWeatherApi()
             .getWeather(ConstantsRepository.yandexKeyValue, lat, lon, lang)
@@ -39,32 +42,26 @@ class RepositoryWeatherImpl(mainActivity: MainActivity) : RepositoryWeather {
                     response: Response<DataModel>
                 ) {
                     if ((response.isSuccessful) && (response.body() != null)) {
-                        saveData(response.body(), null)
+                        saveData(response.body(), lat, lon, null)
                     } else {
-                        saveData(null, Throwable("Ответ от сервера пустой"))
+                        saveData(null, lat, lon, Throwable("Ответ от сервера пустой"))
                     }
                 }
 
                 override fun onFailure(call: Call<DataModel>, t: Throwable) {
-                    saveData(null, t)
+                    saveData(null, lat, lon, t)
                 }
             })
     }
 
-    private fun saveData(dataModel: DataModel?, error: Throwable?) {
-        val fact: Fact? = dataModel?.fact
-        if (fact != null) {
-            Toast.makeText(mainActivity, "${fact?.temp}", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(mainActivity, "${fact}", Toast.LENGTH_SHORT).show()
-        }
-        if (fact != null) {
-            mainActivity.setFact(fact)
+    // Сохранение данных из dataModel в MainChooser (core)
+    private fun saveData(dataModel: DataModel?, lat: Double, lon: Double, error: Throwable?) {
+        if (mainChooserSetter != null) {
+            mainChooserSetter.setDataModel(dataModel, lat, lon)
         }
     }
+    //endregion
 }
-
-data class DataModel(val fact: Fact?)
 
 interface WeatherAPI {
     @GET("v2/informers")

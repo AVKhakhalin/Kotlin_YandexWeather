@@ -28,16 +28,8 @@ class MainActivity: AppCompatActivity(), ResultCurrentViewModelSetter, Publisher
     private val mainChooser : MainChooser = MainChooser()
     private val mainChooserSetter : MainChooserSetter = MainChooserSetter(mainChooser)
     private val mainChooserGetter : MainChooserGetter = MainChooserGetter(mainChooser)
-    private val repositoryWeatherImpl: RepositoryWeatherImpl = RepositoryWeatherImpl(this)
-    private lateinit var fact: Fact
+    private val repositoryWeatherImpl: RepositoryWeatherImpl = RepositoryWeatherImpl(mainChooserSetter)
     //endregion
-
-    fun setFact(fact: Fact) {
-        this.fact = fact
-    }
-    fun getFact(): Fact {
-        return fact
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +50,7 @@ class MainActivity: AppCompatActivity(), ResultCurrentViewModelSetter, Publisher
         resultCurrentViewModel = viewModel
         // Получение данных
 //        resultCurrentViewModel.getDataFromRemoteSource(mainChooserGetter.getFact())
-        resultCurrentViewModel.getDataFromRemoteSource(repositoryWeatherImpl, this)
+        resultCurrentViewModel.getDataFromRemoteSource(repositoryWeatherImpl, mainChooserGetter)
     }
 
     // Установка наблюдателя для domain
