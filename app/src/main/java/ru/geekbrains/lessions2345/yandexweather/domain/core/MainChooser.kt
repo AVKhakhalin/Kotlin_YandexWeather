@@ -1,6 +1,7 @@
 package ru.geekbrains.lessions2345.yandexweather.domain.core
 
 import android.widget.Toast
+import ru.geekbrains.lessions2345.yandexweather.domain.ConstantsDomain
 import ru.geekbrains.lessions2345.yandexweather.domain.data.City
 import ru.geekbrains.lessions2345.yandexweather.domain.data.DataSettings
 import ru.geekbrains.lessions2345.yandexweather.domain.data.DataWeather
@@ -10,6 +11,7 @@ import ru.geekbrains.lessions2345.yandexweather.domain.facade.MainChooserSetter
 import ru.geekbrains.lessions2345.yandexweather.ui.activities.MainActivity
 
 class MainChooser() {
+    //region ЗАДАНИЕ ПЕРЕМЕННЫХ
     private var dataWeather: DataWeather? = DataWeather()
     private var dataSettings: DataSettings? = null
     private var knownCities: MutableList<City>? = mutableListOf(
@@ -35,11 +37,43 @@ class MainChooser() {
         City("Пекин", 39.90419989999999, 116.40739630000007, "Китай")
     )
     private var fact: Fact? = null
+    //endregion
 
-    fun getKnownCities(): MutableList<City>? {
-        return knownCities
+    //region МЕТОДЫ ДЛЯ ПОЛУЧЕНИЯ СПИСКА ИЗВЕСТНЫХ ГОРОДОВ
+    fun getKnownCities(filterCity: String, filterCountry: String): MutableList<City>? {
+        var newKnownCities: MutableList<City>? = null
+        if (filterCountry.equals("") == true) {
+            // Фильтрация по названию города
+            knownCities?.forEach { city ->
+                if ((filterCity.equals("") == true) || (city.name.equals(filterCity) == true) || (city.name.indexOf(filterCity) > -1)) {
+                    if (newKnownCities == null) {
+                        newKnownCities = mutableListOf(city)
+                    } else {
+                        newKnownCities?.add(city)
+                    }
+                }
+            }
+            return knownCities
+        } else {
+            if (knownCities != null) {
+                knownCities?.forEach { city ->
+                    if ((city.country.equals(filterCountry) == true) && ((filterCity.equals("") == true) || (city.name.equals(filterCity) == true) || (city.name.indexOf(filterCity) > -1))) {
+                        if (newKnownCities == null) {
+                            newKnownCities = mutableListOf(city)
+                        } else {
+                            newKnownCities?.add(city)
+                        }
+                    }
+                }
+                return newKnownCities
+            } else {
+                return null
+            }
+        }
     }
+    //endregion
 
+    // Добавить новый город в список известных городов
     fun addKnownCities(city: City) {
         if (knownCities == null) {
             knownCities = MutableList<City>(1){city}
@@ -48,6 +82,7 @@ class MainChooser() {
         }
     }
 
+    // Получить количество известных городов
     fun getNumberKnownCities(): Int {
         if (knownCities == null) {
             return 0
@@ -56,7 +91,8 @@ class MainChooser() {
         }
     }
 
-    fun getDataWeather() : DataWeather? {
+    // Получить данные о погоде сейчас
+    fun getDataWeather(): DataWeather? {
         if (dataWeather == null) {
             return null
         } else {
@@ -64,10 +100,11 @@ class MainChooser() {
         }
     }
 
+    // Установить фактические данные о погоде
     fun setFact(fact: Fact?, lan: Double, lon: Double) {
         this.fact = fact
         if ((fact != null) && (dataWeather != null)) {
-            dataWeather?.city = City("Unknown", lan, lon, "Unknown")
+            dataWeather?.city = City(ConstantsDomain.UNKNOWN_TEXT, lan, lon, ConstantsDomain.UNKNOWN_TEXT)
             dataWeather?.temperature = fact.temp
             dataWeather?.feelsLike = fact.feels_like
             dataWeather?.tempWater = fact.temp_water

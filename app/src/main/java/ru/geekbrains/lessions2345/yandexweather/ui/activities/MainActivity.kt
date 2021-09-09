@@ -48,6 +48,8 @@ class MainActivity: AppCompatActivity(), ResultCurrentViewModelSetter, Publisher
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_result_weather_container, ResultCurrentFragment.newInstance()).commit()
         }
+
+        Toast.makeText(this, "${mainChooserGetter.getKnownCites("Москва","Россия")}", Toast.LENGTH_LONG).show()
     }
 
     // Установка наблюдателя для обновления данных в ResultCurrentFragment
@@ -73,6 +75,7 @@ class MainActivity: AppCompatActivity(), ResultCurrentViewModelSetter, Publisher
         saveKnownCities()
     }
 
+    //region МЕТОДЫ ДЛЯ РАБОТЫ С SHAREDPREFERENCES
     // Сохранение настроек в SharedPreferences
     private fun saveKnownCities() {
         val numberKnownCities = mainChooserGetter.getNumberKnownCites()
@@ -84,7 +87,7 @@ class MainActivity: AppCompatActivity(), ResultCurrentViewModelSetter, Publisher
             val latStringArray: Array<String> = Array<String>(numberKnownCities) { i -> "lat$i"}
             val lonStringArray: Array<String> = Array<String>(numberKnownCities) { i -> "lone$i"}
             val countryStringArray: Array<String> = Array<String>(numberKnownCities) { i -> "country$i"}
-            val knownCities: List<City>? = mainChooserGetter.getKnownCites()
+            val knownCities: List<City>? = mainChooserGetter.getKnownCites("","")
             if (knownCities != null) {
                 knownCities.forEachIndexed { index, element ->
                     editor.putString(nameStringArray[index], element.name)
@@ -115,4 +118,5 @@ class MainActivity: AppCompatActivity(), ResultCurrentViewModelSetter, Publisher
             }
         }
     }
+    //endregion
 }

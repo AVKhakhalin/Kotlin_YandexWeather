@@ -16,7 +16,7 @@ class MainChooserGetter(mainChooser: MainChooser) {
         return mainChooser.getNumberKnownCities()
     }
 
-    fun getKnownCites(): MutableList<City>? {
-        return mainChooser.getKnownCities()
+    fun getKnownCites(filterCity: String, filterCountry: String): MutableList<City>? {
+        return mainChooser.getKnownCities(filterCity, filterCountry)
     }
 }
