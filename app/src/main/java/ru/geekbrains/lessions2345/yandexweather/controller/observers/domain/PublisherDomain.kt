@@ -1,8 +1,9 @@
 package ru.geekbrains.lessions2345.yandexweather.controller.observers.domain
 
 class PublisherDomain {
-    // Все обозреватели
+    //region ЗАДАНИЕ ПЕРЕМЕННЫХ
     private var observers: MutableList<ObserverDomain>? = null
+    //endregion
 
     // Подписаться на паблишер
     fun subscribe(observer: ObserverDomain) {

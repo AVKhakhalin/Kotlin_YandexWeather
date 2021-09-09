@@ -6,7 +6,9 @@ import ru.geekbrains.lessions2345.yandexweather.domain.data.DataWeather
 import ru.geekbrains.lessions2345.yandexweather.domain.data.Fact
 
 class MainChooserGetter(mainChooser: MainChooser) {
+    //region ЗАДАНИЕ ПЕРЕМЕННЫХ
     var mainChooser: MainChooser = mainChooser
+    //endregion
 
     fun getDataWeather(): DataWeather? {
         return mainChooser.getDataWeather()

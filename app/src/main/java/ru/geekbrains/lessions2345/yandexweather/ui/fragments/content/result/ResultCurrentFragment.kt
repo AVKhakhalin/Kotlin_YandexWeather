@@ -55,17 +55,13 @@ class ResultCurrentFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        return inflater.inflate(R.layout.fragment_result_current, container, false)
         bindingReal = FragmentResultCurrentBinding.inflate(inflater, container, false)
         return bindingNotReal.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // Создание viewModel
-//        viewModel = ViewModelProvider(this).get(ResultCurrentViewModel::class.java)
-        // Создание observer
-//        resultCurrentViewModel.getLiveData().observe(viewLifecycleOwner, Observer<Fact> {fact: Fact ->
+        // Создание observer во vieModel
         resultCurrentViewModel.getLiveData().observe(viewLifecycleOwner, Observer<DataWeather> {dataWeather: DataWeather ->
            if (dataWeather != null) {
                Toast.makeText(context, "Температура в Москве ${dataWeather.temperature}", Toast.LENGTH_LONG).show()
@@ -73,8 +69,6 @@ class ResultCurrentFragment : Fragment() {
                Toast.makeText(context, "К серверу обратиться не получилось", Toast.LENGTH_LONG).show()
            }
         })
-        // Получение данных
-//        viewModel.getDataFromRemoteSource()
     }
 
     // Удаление binding при закрытии фрагмента

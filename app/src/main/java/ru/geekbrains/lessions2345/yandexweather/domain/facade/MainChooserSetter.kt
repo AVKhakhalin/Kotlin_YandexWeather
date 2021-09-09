@@ -7,9 +7,11 @@ import ru.geekbrains.lessions2345.yandexweather.domain.data.Fact
 import ru.geekbrains.lessions2345.yandexweather.repository.facadesettings.RepositorySettingsImpl
 
 class MainChooserSetter(mainChooser: MainChooser) {
+    //region ЗАДАНИЕ ПЕРЕМЕННЫХ
     private val repositorySettingsImpl : RepositorySettingsImpl = RepositorySettingsImpl()
     private var mainChooser: MainChooser? = mainChooser
     private var dataModel: DataModel? = null
+    //endregion
 
     fun setFact(fact: Fact?, lan: Double, lon: Double) {
         if (mainChooser != null) {

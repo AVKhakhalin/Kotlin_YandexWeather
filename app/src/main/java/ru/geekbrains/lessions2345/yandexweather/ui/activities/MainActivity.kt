@@ -48,8 +48,6 @@ class MainActivity: AppCompatActivity(), ResultCurrentViewModelSetter, Publisher
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_result_weather_container, ResultCurrentFragment.newInstance()).commit()
         }
-
-        Toast.makeText(this, "${mainChooserGetter.getKnownCites("Москва","Россия")}", Toast.LENGTH_LONG).show()
     }
 
     // Установка наблюдателя для обновления данных в ResultCurrentFragment
