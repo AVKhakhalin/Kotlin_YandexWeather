@@ -57,7 +57,7 @@ class RepositoryWeatherImpl(mainChooserSetter: MainChooserSetter) : RepositoryWe
     // Сохранение данных из dataModel в MainChooser (core)
     private fun saveData(dataModel: DataModel?, lat: Double, lon: Double, error: Throwable?) {
         if (mainChooserSetter != null) {
-            mainChooserSetter.setDataModel(dataModel, lat, lon)
+            mainChooserSetter.setDataModel(dataModel, lat, lon, error)
         }
     }
     //endregion

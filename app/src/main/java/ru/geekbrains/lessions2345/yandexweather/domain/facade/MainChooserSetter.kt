@@ -1,11 +1,10 @@
 package ru.geekbrains.lessions2345.yandexweather.domain.facade
 
-import android.content.Context
 import ru.geekbrains.lessions2345.yandexweather.domain.core.MainChooser
+import ru.geekbrains.lessions2345.yandexweather.domain.data.City
 import ru.geekbrains.lessions2345.yandexweather.domain.data.DataModel
 import ru.geekbrains.lessions2345.yandexweather.domain.data.Fact
 import ru.geekbrains.lessions2345.yandexweather.repository.facadesettings.RepositorySettingsImpl
-import ru.geekbrains.lessions2345.yandexweather.repository.facadeuser.RepositoryWeatherImpl
 
 class MainChooserSetter(mainChooser: MainChooser) {
     private val repositorySettingsImpl : RepositorySettingsImpl = RepositorySettingsImpl()
@@ -18,10 +17,16 @@ class MainChooserSetter(mainChooser: MainChooser) {
         }
     }
 
-    fun setDataModel(dataModel: DataModel?, lan: Double, lon: Double) {
+    fun setDataModel(dataModel: DataModel?, lan: Double, lon: Double, error: Throwable?) {
         this.dataModel = dataModel
         if (dataModel != null) {
             setFact(dataModel?.fact, lan, lon)
+        }
+    }
+
+    fun addKnownCities(city: City) {
+        if (mainChooser != null) {
+            mainChooser?.addKnownCities(city)
         }
     }
 }

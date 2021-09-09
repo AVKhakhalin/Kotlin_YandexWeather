@@ -80,7 +80,7 @@
             android:id="@+id/result_current_constraint_layout_loading_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/progress_bar_backgraund_color"
+            android:background="@color/progress_bar_background_color"
             android:visibility="gone"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp"

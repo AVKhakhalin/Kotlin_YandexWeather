@@ -1,5 +1,6 @@
 package ru.geekbrains.lessions2345.yandexweather.ui.activities
 
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -12,6 +13,7 @@ import ru.geekbrains.lessions2345.yandexweather.controller.observers.viewmodels.
 import ru.geekbrains.lessions2345.yandexweather.controller.observers.viewmodels.ResultCurrentViewModelSetter
 import ru.geekbrains.lessions2345.yandexweather.domain.ConstantsDomain
 import ru.geekbrains.lessions2345.yandexweather.domain.core.MainChooser
+import ru.geekbrains.lessions2345.yandexweather.domain.data.City
 import ru.geekbrains.lessions2345.yandexweather.domain.data.Fact
 import ru.geekbrains.lessions2345.yandexweather.domain.facade.MainChooserGetter
 import ru.geekbrains.lessions2345.yandexweather.domain.facade.MainChooserSetter
@@ -38,8 +40,11 @@ class MainActivity: AppCompatActivity(), ResultCurrentViewModelSetter, Publisher
         // Подключение наблюдателя за domain к MainActivity
         publisherDomain.subscribe(this)
 
-        // Отображение фрагмента
+        // Случай первого запуска активити
         if (savedInstanceState == null) {
+            // Получение известных городов
+            getKnownCities()
+            // Отображение основного фрагмента
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_result_weather_container, ResultCurrentFragment.newInstance()).commit()
         }
@@ -49,7 +54,6 @@ class MainActivity: AppCompatActivity(), ResultCurrentViewModelSetter, Publisher
     override fun setResultCurrentViewModel(viewModel: ResultCurrentViewModel) {
         resultCurrentViewModel = viewModel
         // Получение данных
-//        resultCurrentViewModel.getDataFromRemoteSource(mainChooserGetter.getFact())
         resultCurrentViewModel.getDataFromRemoteSource(repositoryWeatherImpl, mainChooserGetter)
     }
 
@@ -61,5 +65,54 @@ class MainActivity: AppCompatActivity(), ResultCurrentViewModelSetter, Publisher
     // Создание метода для передачи наблюдателя для domain во фрагменты
     override fun getPublisherDomain(): PublisherDomain {
         return publisherDomain
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // Сохранение известных городов
+        saveKnownCities()
+    }
+
+    // Сохранение настроек в SharedPreferences
+    private fun saveKnownCities() {
+        val numberKnownCities = mainChooserGetter.getNumberKnownCites()
+        val sharedPreferences: SharedPreferences = getSharedPreferences(ConstantsUi.SHARED_SAVE, MODE_PRIVATE)
+        var editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.putInt(ConstantsUi.SHARED_NUMBER_SAVED_CITIES, numberKnownCities)
+        if (numberKnownCities > 0) {
+            val nameStringArray: Array<String> = Array<String>(numberKnownCities) { i -> "name$i"}
+            val latStringArray: Array<String> = Array<String>(numberKnownCities) { i -> "lat$i"}
+            val lonStringArray: Array<String> = Array<String>(numberKnownCities) { i -> "lone$i"}
+            val countryStringArray: Array<String> = Array<String>(numberKnownCities) { i -> "country$i"}
+            val knownCities: List<City>? = mainChooserGetter.getKnownCites()
+            if (knownCities != null) {
+                knownCities.forEachIndexed { index, element ->
+                    editor.putString(nameStringArray[index], element.name)
+                    editor.putFloat(latStringArray[index], element.lat as Float)
+                    editor.putFloat(lonStringArray[index], element.lon as Float)
+                    editor.putString(countryStringArray[index], element.country)
+                }
+            }
+        }
+        editor.apply()
+    }
+
+    // Получение настроек из SharedPreferences
+    private fun getKnownCities() {
+        val sharedPreferences: SharedPreferences = getSharedPreferences(ConstantsUi.SHARED_SAVE, MODE_PRIVATE)
+        val numberKnownCities = sharedPreferences.getInt(ConstantsUi.SHARED_NUMBER_SAVED_CITIES, 0)
+        if (numberKnownCities > 0) {
+            val nameStringArray: Array<String> = Array<String>(numberKnownCities) { i -> "name$i"}
+            val latStringArray: Array<String> = Array<String>(numberKnownCities) { i -> "lat$i"}
+            val lonStringArray: Array<String> = Array<String>(numberKnownCities) { i -> "lone$i"}
+            val countryStringArray: Array<String> = Array<String>(numberKnownCities) { i -> "country$i"}
+            repeat(numberKnownCities) {
+                mainChooserSetter.addKnownCities(City(
+                    sharedPreferences.getString(nameStringArray[it], ConstantsUi.UNKNOWN_TEXT)!!,
+                    sharedPreferences.getFloat(latStringArray[it], ConstantsUi.ZERO_FLOAT) as Double,
+                    sharedPreferences.getFloat(lonStringArray[it], ConstantsUi.ZERO_FLOAT) as Double,
+                    sharedPreferences.getString(countryStringArray[it], ConstantsUi.UNKNOWN_TEXT)!!))
+            }
+        }
     }
 }
