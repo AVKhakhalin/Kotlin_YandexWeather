@@ -101,10 +101,10 @@ class MainChooser() {
     }
 
     // Установить фактические данные о погоде
-    fun setFact(fact: Fact?, lan: Double, lon: Double) {
+    fun setFact(fact: Fact?, lat: Double, lon: Double) {
         this.fact = fact
         if ((fact != null) && (dataWeather != null)) {
-            dataWeather?.city = City(ConstantsDomain.UNKNOWN_TEXT, lan, lon, ConstantsDomain.UNKNOWN_TEXT)
+            dataWeather?.city = City(ConstantsDomain.UNKNOWN_TEXT, lat, lon, ConstantsDomain.UNKNOWN_TEXT)
             dataWeather?.temperature = fact.temp
             dataWeather?.feelsLike = fact.feels_like
             dataWeather?.tempWater = fact.temp_water

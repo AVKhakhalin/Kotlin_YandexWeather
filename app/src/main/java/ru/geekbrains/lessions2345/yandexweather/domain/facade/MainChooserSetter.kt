@@ -13,16 +13,16 @@ class MainChooserSetter(mainChooser: MainChooser) {
     private var dataModel: DataModel? = null
     //endregion
 
-    fun setFact(fact: Fact?, lan: Double, lon: Double) {
+    fun setFact(fact: Fact?, lat: Double, lon: Double) {
         if (mainChooser != null) {
-            mainChooser?.setFact(fact, lan, lon)
+            mainChooser?.setFact(fact, lat, lon)
         }
     }
 
-    fun setDataModel(dataModel: DataModel?, lan: Double, lon: Double, error: Throwable?) {
+    fun setDataModel(dataModel: DataModel?, lat: Double, lon: Double, error: Throwable?) {
         this.dataModel = dataModel
         if (dataModel != null) {
-            setFact(dataModel?.fact, lan, lon)
+            setFact(dataModel?.fact, lat, lon)
         }
     }
 

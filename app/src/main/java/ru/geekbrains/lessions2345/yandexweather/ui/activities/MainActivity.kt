@@ -44,7 +44,7 @@ class MainActivity: AppCompatActivity(), ResultCurrentViewModelSetter, Publisher
         if (savedInstanceState == null) {
             // Получение известных городов
             getKnownCities()
-            // Отображение основного фрагмента
+            // Отображение фрагмента с данными о погоде в выбранном месте (city)
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_result_weather_container, ResultCurrentFragment.newInstance()).commit()
         }
