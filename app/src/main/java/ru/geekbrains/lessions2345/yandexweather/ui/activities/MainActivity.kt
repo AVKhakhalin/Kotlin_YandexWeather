@@ -77,9 +77,11 @@ class MainActivity: AppCompatActivity(), ResultCurrentViewModelSetter, Publisher
     // Сохранение настроек в SharedPreferences
     private fun saveKnownCities() {
         val numberKnownCities = mainChooserGetter.getNumberKnownCites()
+        val positionCurrentKnownCity = mainChooserGetter.getPositionCurrentKnownCity()
         val sharedPreferences: SharedPreferences = getSharedPreferences(ConstantsUi.SHARED_SAVE, MODE_PRIVATE)
         var editor: SharedPreferences.Editor = sharedPreferences.edit()
         editor.putInt(ConstantsUi.SHARED_NUMBER_SAVED_CITIES, numberKnownCities)
+        editor.putInt(ConstantsUi.SHARED_POSITION_CURRENT_KNOWN_CITY, positionCurrentKnownCity)
         if (numberKnownCities > 0) {
             val nameStringArray: Array<String> = Array<String>(numberKnownCities) { i -> "name$i"}
             val latStringArray: Array<String> = Array<String>(numberKnownCities) { i -> "lat$i"}

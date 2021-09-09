@@ -36,10 +36,33 @@ class MainChooser() {
         City("Киев", 50.4501, 30.523400000000038, "Украина"),
         City("Пекин", 39.90419989999999, 116.40739630000007, "Китай")
     )
+    private var positionCurrentKnownCity: Int = -1
     private var fact: Fact? = null
     //endregion
 
-    //region МЕТОДЫ ДЛЯ ПОЛУЧЕНИЯ СПИСКА ИЗВЕСТНЫХ ГОРОДОВ
+    // Получение позиции известного города, по которому последний раз запрошены погодные данные
+    fun getPositionCurrentKnownCity(): Int {
+        return positionCurrentKnownCity
+    }
+
+    //region Методы установки позиции известного города, по которому последний раз запрошены погодные данные
+    fun setPositionCurrentKnownCity(filterCity: String, filterCountry: String) {
+        if (knownCities != null) {
+            knownCities?.forEachIndexed() { position, city ->
+                if ((city.country.equals(filterCountry) == true) && (city.name.equals(filterCity) == true)) {
+                    positionCurrentKnownCity = position
+                    return
+                }
+            }
+        }
+    }
+    fun setPositionCurrentKnownCity(position: Int) {
+        positionCurrentKnownCity = position
+    }
+    //endregion
+
+
+        //region МЕТОДЫ ДЛЯ ПОЛУЧЕНИЯ СПИСКА ИЗВЕСТНЫХ ГОРОДОВ
     fun getKnownCities(filterCity: String, filterCountry: String): MutableList<City>? {
         var newKnownCities: MutableList<City>? = null
         if (filterCountry.equals("") == true) {
@@ -76,7 +99,7 @@ class MainChooser() {
     // Добавить новый город в список известных городов
     fun addKnownCities(city: City) {
         if (knownCities == null) {
-            knownCities = MutableList<City>(1){city}
+            knownCities = mutableListOf(city)
         } else {
             knownCities?.add(city)
         }
