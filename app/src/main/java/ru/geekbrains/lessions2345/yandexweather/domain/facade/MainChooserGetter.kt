@@ -19,13 +19,27 @@ class MainChooserGetter(mainChooser: MainChooser) {
         return mainChooser.getNumberKnownCities()
     }
 
-    // Получение списка известных мест (городов)
+    //region МЕТОДЫ ПОЛУЧЕНИЯ СПИСКА ИЗВЕСТНЫХ МЕСТ (ГОРОДОВ)
     fun getKnownCites(filterCity: String, filterCountry: String): MutableList<City>? {
         return mainChooser.getKnownCities(filterCity, filterCountry)
     }
+    fun getKnownCites(): MutableList<City>? {
+        return mainChooser.getKnownCities()
+    }
+    //endregion
 
     // Получение позиции известного города, по которому последний раз запрошены погодные данные
     fun getPositionCurrentKnownCity(): Int {
         return mainChooser.getPositionCurrentKnownCity()
+    }
+
+    // Получение фильтра выбора места (города) по-умолчанию
+    fun getDefaultFilterCity(): String {
+        return mainChooser.getDefaultFilterCity()
+    }
+
+    // Получение фильтра выбора страны по-умолчанию
+    fun getDefaultFilterCountry(): String {
+        return mainChooser.getDefaultFilterCountry()
     }
 }

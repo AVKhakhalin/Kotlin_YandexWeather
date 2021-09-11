@@ -25,7 +25,6 @@ class MainChooserSetter(mainChooser: MainChooser) {
             setFact(dataModel?.fact, lat, lon)
         }
     }
-
     fun setFact(fact: Fact?, lat: Double, lon: Double) {
         if (mainChooser != null) {
             mainChooser?.setFact(fact, lat, lon)
@@ -38,6 +37,20 @@ class MainChooserSetter(mainChooser: MainChooser) {
     fun addKnownCities(city: City) {
         if (mainChooser != null) {
             mainChooser?.addKnownCities(city)
+        }
+    }
+
+    // Установка фильтра выбора места (города) по-умолчанию
+    fun setDefaultFilterCity(defaultFilterCity: String) {
+        if (mainChooser != null) {
+            mainChooser?.setDefaultFilterCity(defaultFilterCity)
+        }
+    }
+
+    // Установка фильтра выбора страны по-умолчанию
+    fun setDefaultFilterCountry(defaultFilterCountry: String) {
+        if (mainChooser != null) {
+            mainChooser?.setDefaultFilterCountry(defaultFilterCountry)
         }
     }
 
@@ -55,4 +68,10 @@ class MainChooserSetter(mainChooser: MainChooser) {
     }
     //region
 
+    // Установка начальных городов
+    fun initKnownCities() {
+        if (mainChooser != null) {
+            mainChooser?.initKnownCities()
+        }
+    }
 }

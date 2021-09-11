@@ -9,6 +9,10 @@ class ConstantsUi {
         @JvmField
         val SHARED_POSITION_CURRENT_KNOWN_CITY: String = "positionCurrentKnownCity"
         @JvmField
+        val SHARED_DEFAULT_FILTER_CITY: String = "defaultFilterCity"
+        @JvmField
+        val SHARED_DEFAULT_FILTER_COUNTRY: String = "defaultFilterCountry"
+        @JvmField
         val UNKNOWN_TEXT: String = "unknown"
         @JvmField
         val ZERO_FLOAT: Float = 0f
