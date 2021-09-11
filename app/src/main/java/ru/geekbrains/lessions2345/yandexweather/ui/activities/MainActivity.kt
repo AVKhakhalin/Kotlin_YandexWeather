@@ -1,9 +1,8 @@
 package ru.geekbrains.lessions2345.yandexweather.ui.activities
 
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import ru.geekbrains.lessions2345.yandexweather.R
 import ru.geekbrains.lessions2345.yandexweather.controller.observers.domain.*
 import ru.geekbrains.lessions2345.yandexweather.controller.observers.viewmodels.ListCitiesViewModel
@@ -16,6 +15,7 @@ import ru.geekbrains.lessions2345.yandexweather.domain.facade.MainChooserGetter
 import ru.geekbrains.lessions2345.yandexweather.domain.facade.MainChooserSetter
 import ru.geekbrains.lessions2345.yandexweather.repository.facadeuser.RepositoryWeatherImpl
 import ru.geekbrains.lessions2345.yandexweather.ui.ConstantsUi
+import ru.geekbrains.lessions2345.yandexweather.ui.fragments.content.result.ResultCurrentFragment
 import ru.geekbrains.lesson_1423_2_2_main.view.main.ListCitiesFragment
 
 class MainActivity:
@@ -49,35 +49,35 @@ class MainActivity:
         if (savedInstanceState == null) {
             // Получение известных городов
             getKnownCities()
-            // Отображение фрагмента со списком мест (city) для выбора интересующего места
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_result_weather_container, ListCitiesFragment.newInstance(
-                    if (mainChooserGetter.getDefaultFilterCountry().equals("Россия") == true) true else {
-
-                        false
-                    }
-                        )).commit()
-/*
-            // Отображение фрагмента с данными о погоде в выбранном месте (city)
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_result_weather_container, ResultCurrentFragment.newInstance()).commit()
-*/
+            // Выбор
+            if (mainChooserGetter.getPositionCurrentKnownCity() == -1) {
+                // Отображение фрагмента со списком мест (city) для выбора интересующего места
+                supportFragmentManager.beginTransaction()
+                    .replace(
+                        R.id.fragment_result_weather_container, ListCitiesFragment.newInstance(
+                            if (mainChooserGetter.getDefaultFilterCountry()
+                                    .equals("Россия") == true
+                            ) true else false
+                        )
+                    )
+                    .commit()
+            } else {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_result_weather_container, ResultCurrentFragment.newInstance(mainChooserGetter.getCurrentKnownCity()!!))
+                    .commit()
+            }
         }
     }
 
     // Установка наблюдателя для обновления данных в ResultCurrentFragment
     override fun setResultCurrentViewModel(viewModel: ResultCurrentViewModel) {
         resultCurrentViewModel = viewModel
-        // Получение данных
-        resultCurrentViewModel.getDataFromRemoteSource(repositoryWeatherImpl, mainChooserGetter)
     }
 
     // Установка наблюдателя для обновления данных в ListCitiesFragment
     override fun setListCitiesViewModel(viewModel: ListCitiesViewModel) {
         listCitiesViewModel = viewModel
         listCitiesViewModel.setMainChooserGetter(mainChooserGetter)
-        // Получение данных
-        resultCurrentViewModel.getDataFromRemoteSource(repositoryWeatherImpl, mainChooserGetter)
     }
 
     override fun onStop() {
@@ -112,7 +112,6 @@ class MainActivity:
         editor.putString(ConstantsUi.SHARED_DEFAULT_FILTER_CITY, mainChooserGetter.getDefaultFilterCity())
         editor.putString(ConstantsUi.SHARED_DEFAULT_FILTER_COUNTRY, mainChooserGetter.getDefaultFilterCountry())
         editor.apply()
-        Toast.makeText(this, "Вывод контрольной информации при сохранении: ${mainChooserGetter.getPositionCurrentKnownCity()} ${mainChooserGetter.getDefaultFilterCity()} ${mainChooserGetter.getDefaultFilterCountry()}", Toast.LENGTH_LONG).show()
     }
 
     // Получение настроек из SharedPreferences
@@ -135,7 +134,6 @@ class MainActivity:
         mainChooserSetter.setPositionCurrentKnownCity(sharedPreferences.getInt(ConstantsUi.SHARED_POSITION_CURRENT_KNOWN_CITY, -1))
         mainChooserSetter.setDefaultFilterCity(sharedPreferences.getString(ConstantsUi.SHARED_DEFAULT_FILTER_CITY, "")!!)
         mainChooserSetter.setDefaultFilterCountry(sharedPreferences.getString(ConstantsUi.SHARED_DEFAULT_FILTER_COUNTRY, "")!!)
-        Toast.makeText(this, "Вывод контрольной информации: ${mainChooserGetter.getPositionCurrentKnownCity()} ${mainChooserGetter.getDefaultFilterCity()} ${mainChooserGetter.getDefaultFilterCountry()}", Toast.LENGTH_LONG).show()
 
         // Установка известных городов по-умолчанию
         if (mainChooserGetter.getNumberKnownCites() == 0) {
@@ -155,13 +153,19 @@ class MainActivity:
     }
     override fun updateFilterCountry(filterCountry: String) {
         mainChooserSetter.setDefaultFilterCountry(filterCountry)
-        Toast.makeText(this, "$filterCountry", Toast.LENGTH_SHORT).show()
-        Toast.makeText(this, "Вывод контрольной информации: ${mainChooserGetter.getPositionCurrentKnownCity()} ${mainChooserGetter.getDefaultFilterCity()} ${mainChooserGetter.getDefaultFilterCountry()}", Toast.LENGTH_LONG).show()
+    }
+    override fun updateFilterCity(filterCity: String) {
+        mainChooserSetter.setDefaultFilterCity(filterCity)
+    }
+    override fun updatePositionCurrentKnownCity(positionCurrentKnownCity: Int) {
+        mainChooserSetter.setPositionCurrentKnownCity(positionCurrentKnownCity)
     }
 
     // Установка наблюдателя для domain
-    override fun updateUserChoose() {
-        TODO("Not yet implemented")
+    override fun updateCity(city: City) {
+        mainChooserSetter.setPositionCurrentKnownCity(city.name, city.country)
+        // Получение данных в resultCurrentViewModel
+        resultCurrentViewModel.getDataFromRemoteSource(repositoryWeatherImpl, mainChooserGetter)
     }
     //endregion
 }

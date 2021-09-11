@@ -17,11 +17,8 @@ class ListCitiesViewModel(
 
     fun getListCities() {
         if (mainChooserGetter != null) {
-//            Thread {
-//                sleep(1000)
-                // Передача данных в основном потоке postValue (postValue два раза подряд использовать нельзя)
-                liveDataToObserve.postValue(UpdateState.ListCities(mainChooserGetter as MainChooserGetter))
-//            }.start()
+            // Передача данных в основном потоке postValue (postValue два раза подряд использовать нельзя)
+            liveDataToObserve.postValue(UpdateState.ListCities(mainChooserGetter as MainChooserGetter))
         }
     }
 }

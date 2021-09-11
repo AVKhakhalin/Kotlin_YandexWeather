@@ -69,6 +69,15 @@ class MainChooser() {
         return defaultFilterCountry
     }
 
+    // Получение данных об известном городе, по которому последний раз запрошены погодные данные или который выбран в списке известных городов
+    fun getCurrentKnownCity(): City? {
+        if ((positionCurrentKnownCity > -1) && (knownCities != null)) {
+            return knownCities?.get(positionCurrentKnownCity)!!
+        } else {
+            return City("Москва(ERR)", 55.7522, 37.6156, "Россия(ERR)")
+        }
+    }
+
     // Получение позиции известного города, по которому последний раз запрошены погодные данные
     fun getPositionCurrentKnownCity(): Int {
         if ((positionCurrentKnownCity > -1) && (knownCities != null)) {
@@ -154,7 +163,7 @@ class MainChooser() {
                         }
                         return newKnownCities
                     } else {
-                        return mutableListOf(City("Москва", 55.7522, 37.6156, "Россия"))
+                        return mutableListOf(City("Москва(ERR)", 55.7522, 37.6156, "Россия(ERR)"))
                     }
                 } else {
                     // Фильтрация в случае поиска ПО НАЗВАНИЯМ СТРАНЫ И ГОРОДА
@@ -175,7 +184,7 @@ class MainChooser() {
                         }
                         return newKnownCities
                     } else {
-                        return mutableListOf(City("Москва", 55.7522, 37.6156, "Россия"))
+                        return mutableListOf(City("Москва(ERR)", 55.7522, 37.6156, "Россия(ERR)"))
                     }
                 }
             }
@@ -214,7 +223,7 @@ class MainChooser() {
     fun setFact(fact: Fact?, lat: Double, lon: Double) {
         this.fact = fact
         if ((fact != null) && (dataWeather != null)) {
-            dataWeather?.city = City(ConstantsDomain.UNKNOWN_TEXT, lat, lon, ConstantsDomain.UNKNOWN_TEXT)
+            dataWeather?.city = City(getCurrentKnownCity()!!.name, lat, lon, getCurrentKnownCity()!!.country)
             dataWeather?.temperature = fact.temp
             dataWeather?.feelsLike = fact.feels_like
             dataWeather?.tempWater = fact.temp_water

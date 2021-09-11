@@ -93,6 +93,19 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center" />
         </FrameLayout>
+
+        <TextView
+            android:text="@string/result_current_down_help_text"
+            android:textSize="@dimen/result_current_down_help_text_size"
+            android:layout_marginBottom="@dimen/result_current_down_help_margin_bottom"
+            android:textStyle="italic"
+            android:gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

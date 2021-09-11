@@ -19,11 +19,20 @@ class ListCitiesPublisherDomain {
         observers?.remove(observer)
     }
 
-    // Разослать событие о действиях пользователя
+    // Разослать событие о смене пользователем фильтра страны
     fun notifyDefaultFilterCountry(defaultFilterCountry: String) {
         if (observers != null) {
             for (observer in observers!!) {
                 observer.updateFilterCountry(defaultFilterCountry)
+            }
+        }
+    }
+
+    // Разослать событие о смене пользователем фильтра страны
+    fun notifyDefaultFilterCity(defaultFilterCity: String) {
+        if (observers != null) {
+            for (observer in observers!!) {
+                observer.updateFilterCity(defaultFilterCity)
             }
         }
     }

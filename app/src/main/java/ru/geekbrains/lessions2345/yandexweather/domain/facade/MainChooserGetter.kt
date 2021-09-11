@@ -28,6 +28,11 @@ class MainChooserGetter(mainChooser: MainChooser) {
     }
     //endregion
 
+    // Получение данных об известном городе, по которому последний раз запрошены погодные данные или который выбран в списке известных городов
+    fun getCurrentKnownCity(): City? {
+        return mainChooser.getCurrentKnownCity()
+    }
+
     // Получение позиции известного города, по которому последний раз запрошены погодные данные
     fun getPositionCurrentKnownCity(): Int {
         return mainChooser.getPositionCurrentKnownCity()

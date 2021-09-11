@@ -11,6 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
+import ru.geekbrains.lessions2345.yandexweather.domain.data.City
 import ru.geekbrains.lessions2345.yandexweather.domain.data.DataModel
 import ru.geekbrains.lessions2345.yandexweather.domain.data.DataWeather
 import ru.geekbrains.lessions2345.yandexweather.domain.data.Fact

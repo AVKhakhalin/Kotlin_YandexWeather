@@ -16,7 +16,6 @@ import ru.geekbrains.lessions2345.yandexweather.controller.observers.viewmodels.
 import ru.geekbrains.lessions2345.yandexweather.controller.observers.viewmodels.UpdateState
 import ru.geekbrains.lessions2345.yandexweather.databinding.FragmentListCitiesBinding
 import ru.geekbrains.lessions2345.yandexweather.domain.data.City
-import ru.geekbrains.lessions2345.yandexweather.domain.facade.MainChooserGetter
 import ru.geekbrains.lessions2345.yandexweather.ui.activities.MainActivity
 import ru.geekbrains.lessions2345.yandexweather.ui.fragments.content.result.ResultCurrentFragment
 import ru.geekbrains.lesson_1423_2_2_main.view.OnItemViewClickListener
@@ -78,10 +77,12 @@ class ListCitiesFragment(isDataSetRusInitial: Boolean): Fragment(), OnItemViewCl
                 if(!isDataSetRus){
                     binding.fragmentListCitiesFAB.setImageResource(R.drawable.ic_russia)
                     listCitiesPublisherDomain.notifyDefaultFilterCountry("-Россия")
+                    listCitiesPublisherDomain.notifyDefaultFilterCity("")
                     listCitiesViewModel.getListCities()
                 }else {
                     binding.fragmentListCitiesFAB.setImageResource(R.drawable.ic_earth)
                     listCitiesPublisherDomain.notifyDefaultFilterCountry("Россия")
+                    listCitiesPublisherDomain.notifyDefaultFilterCity("")
                     listCitiesViewModel.getListCities()
                 }
             }
@@ -114,7 +115,7 @@ class ListCitiesFragment(isDataSetRusInitial: Boolean): Fragment(), OnItemViewCl
 
     override fun onItemClick(city: City) {
         requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_result_weather_container, ResultCurrentFragment.newInstance())
+            .replace(R.id.fragment_result_weather_container, ResultCurrentFragment.newInstance(city))
             .commit()
     }
 }
