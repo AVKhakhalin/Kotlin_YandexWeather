@@ -1,7 +1,5 @@
 package ru.geekbrains.lessions2345.yandexweather.repository.facadeuser
 
-import android.content.Context
-import android.widget.Toast
 import com.google.gson.GsonBuilder
 import retrofit2.Call
 import retrofit2.Callback
@@ -11,13 +9,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
-import ru.geekbrains.lessions2345.yandexweather.domain.data.City
 import ru.geekbrains.lessions2345.yandexweather.domain.data.DataModel
 import ru.geekbrains.lessions2345.yandexweather.domain.data.DataWeather
-import ru.geekbrains.lessions2345.yandexweather.domain.data.Fact
 import ru.geekbrains.lessions2345.yandexweather.domain.facade.MainChooserSetter
 import ru.geekbrains.lessions2345.yandexweather.repository.ConstantsRepository
-import ru.geekbrains.lessions2345.yandexweather.ui.activities.MainActivity
 
 class RepositoryWeatherImpl(mainChooserSetter: MainChooserSetter) : RepositoryWeather {
     private val retrofitImpl: RetrofitImpl = RetrofitImpl()

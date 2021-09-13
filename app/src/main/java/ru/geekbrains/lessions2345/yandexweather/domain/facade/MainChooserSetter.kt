@@ -22,7 +22,7 @@ class MainChooserSetter(mainChooser: MainChooser) {
     ) { // TODO: Сделать обработку события ошибки error
         this.dataModel = dataModel
         if (dataModel != null) {
-            setFact(dataModel?.fact, lat, lon)
+            setFact(dataModel.fact, lat, lon)
         }
     }
     fun setFact(fact: Fact?, lat: Double, lon: Double) {

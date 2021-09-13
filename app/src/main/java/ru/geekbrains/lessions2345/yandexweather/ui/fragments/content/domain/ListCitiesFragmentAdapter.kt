@@ -23,8 +23,8 @@ class ListCitiesFragmentAdapter:RecyclerView.Adapter<ListCitiesFragmentAdapter.M
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainFragmentViewHolder {
-        val holder = MainFragmentViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.fragment_list_cities_recycler_item,parent,false))
-        return holder
+        return MainFragmentViewHolder(LayoutInflater.from(parent.context)
+                    .inflate(R.layout.fragment_list_cities_recycler_item,parent,false))
     }
 
     override fun onBindViewHolder(holder: MainFragmentViewHolder, position: Int) {
@@ -36,11 +36,9 @@ class ListCitiesFragmentAdapter:RecyclerView.Adapter<ListCitiesFragmentAdapter.M
      inner class MainFragmentViewHolder(view:View):RecyclerView.ViewHolder(view){
         fun render(city: City){
             itemView.findViewById<TextView>(R.id.recycler_item_text_view).text = city.name
-            itemView.setOnClickListener( object : View.OnClickListener{
-                override fun onClick(p0: View?) {
+            itemView.setOnClickListener{
                     listener.onItemClick(city)
                 }
-            })
         }
     }
 }

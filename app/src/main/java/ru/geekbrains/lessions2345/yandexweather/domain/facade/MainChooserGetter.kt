@@ -6,7 +6,7 @@ import ru.geekbrains.lessions2345.yandexweather.domain.data.DataWeather
 
 class MainChooserGetter(mainChooser: MainChooser) {
     //region ЗАДАНИЕ ПЕРЕМЕННЫХ
-    var mainChooser: MainChooser = mainChooser
+    private var mainChooser: MainChooser = mainChooser
     //endregion
 
     // Получение данных о погоде

@@ -63,7 +63,7 @@ class ListCitiesFragment(isDataSetRusInitial: Boolean): Fragment(), OnItemViewCl
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // Начальная установка вида кнопки переключения фильтра стран
-        if (isDataSetRus == true) {
+        if (isDataSetRus) {
             binding.fragmentListCitiesFAB.setImageResource(R.drawable.ic_earth)
         } else {
             binding.fragmentListCitiesFAB.setImageResource(R.drawable.ic_russia)
@@ -105,6 +105,7 @@ class ListCitiesFragment(isDataSetRusInitial: Boolean): Fragment(), OnItemViewCl
                 }
                 Snackbar.make(binding.root, "Success", Snackbar.LENGTH_LONG).show()
             }
+            //else -> //TODO: Добавить случай с неуспешной загрузкой списка
         }
     }
 

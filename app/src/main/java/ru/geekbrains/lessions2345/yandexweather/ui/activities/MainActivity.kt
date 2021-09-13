@@ -53,13 +53,7 @@ class MainActivity:
             if (mainChooserGetter.getPositionCurrentKnownCity() == -1) {
                 // Отображение фрагмента со списком мест (city) для выбора интересующего места
                 supportFragmentManager.beginTransaction()
-                    .replace(
-                        R.id.fragment_result_weather_container, ListCitiesFragment.newInstance(
-                            if (mainChooserGetter.getDefaultFilterCountry()
-                                    .equals("Россия") == true
-                            ) true else false
-                        )
-                    )
+                    .replace(R.id.fragment_result_weather_container, ListCitiesFragment.newInstance(mainChooserGetter.getDefaultFilterCountry().equals("Россия") == true))
                     .commit()
             } else {
                 supportFragmentManager.beginTransaction()
@@ -91,7 +85,7 @@ class MainActivity:
     private fun saveKnownCities() {
         val numberKnownCities = mainChooserGetter.getNumberKnownCites()
         val sharedPreferences: SharedPreferences = getSharedPreferences(ConstantsUi.SHARED_SAVE, MODE_PRIVATE)
-        var editor: SharedPreferences.Editor = sharedPreferences.edit()
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
         editor.putInt(ConstantsUi.SHARED_NUMBER_SAVED_CITIES, numberKnownCities)
         if (numberKnownCities > 0) {
             val nameStringArray: Array<String> = Array<String>(numberKnownCities) { i -> "name$i"}

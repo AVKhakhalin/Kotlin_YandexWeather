@@ -91,7 +91,7 @@ class MainChooser() {
     fun setPositionCurrentKnownCity(filterCity: String, filterCountry: String) {
         if (knownCities != null) {
             knownCities?.forEachIndexed() { position, city ->
-                if ((city.country.equals(filterCountry) == true) && (city.name.equals(filterCity) == true)) {
+                if (city.country == filterCountry && city.name == filterCity) {
                     defaultFilterCity = city.name
                     defaultFilterCountry = city.country
                     positionCurrentKnownCity = position
@@ -114,7 +114,7 @@ class MainChooser() {
         return analiseKnownCities(filterCity, filterCountry)
     }
     fun getKnownCities(): MutableList<City>? {
-        var filterCity: String = defaultFilterCity
+        val filterCity: String = defaultFilterCity
         val filterCountry: String = defaultFilterCountry
         return analiseKnownCities(filterCity, filterCountry)
     }
@@ -123,7 +123,7 @@ class MainChooser() {
             return mutableListOf(City("Москва", 55.7522, 37.6156, "Россия"))
         } else {
             // Корректировка фильтров места (города) и страны
-            var newFilterCity = filterCity
+            val newFilterCity = filterCity
             var newFilterCountry = filterCountry
             var newKnownCities: MutableList<City>? = null
             // Фильтрация и построение списка мест (городов)
@@ -148,12 +148,7 @@ class MainChooser() {
                     if (knownCities != null) {
                         val newFilterCountry: String = newFilterCountry.substring(1)
                         knownCities?.forEach { city ->
-                            if ((city.country.equals(newFilterCountry) == false) && (city.country.indexOf(
-                                    newFilterCountry
-                                ) == -1) && ((newFilterCity.equals("") == true) || (city.name.equals(
-                                    newFilterCity
-                                ) == true) || (city.name.indexOf(newFilterCity) > -1))
-                            ) {
+                            if (city.country != newFilterCountry && (city.country.indexOf(newFilterCountry) == -1) && (newFilterCity == "" || city.name == newFilterCity || (city.name.indexOf(newFilterCity) > -1))) {
                                 if (newKnownCities == null) {
                                     newKnownCities = mutableListOf(city)
                                 } else {
@@ -169,12 +164,7 @@ class MainChooser() {
                     // Фильтрация в случае поиска ПО НАЗВАНИЯМ СТРАНЫ И ГОРОДА
                     if (knownCities != null) {
                         knownCities?.forEach { city ->
-                            if ((city.country.equals(newFilterCountry) == true) && ((newFilterCity.equals(
-                                    ""
-                                ) == true) || (city.name.equals(newFilterCity) == true) || (city.name.indexOf(
-                                    newFilterCity
-                                ) > -1))
-                            ) {
+                            if (city.country == newFilterCountry && (newFilterCity == "" || city.name == newFilterCity || (city.name.indexOf(newFilterCity) > -1))) {
                                 if (newKnownCities == null) {
                                     newKnownCities = mutableListOf(city)
                                 } else {
