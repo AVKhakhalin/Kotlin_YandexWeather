@@ -50,4 +50,5 @@ data class DataWeather(
                              //    «autumn» — осень.
                              //    «winter» — зима.
                              //    «spring» — весна.	Строка
+    var error: Throwable? = null //   Информация об ошибке загрузки пгододных данных с сервера Yandex
 )

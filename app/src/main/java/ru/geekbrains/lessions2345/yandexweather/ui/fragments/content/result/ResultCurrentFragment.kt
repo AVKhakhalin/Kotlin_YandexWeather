@@ -9,10 +9,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import ru.geekbrains.lessions2345.yandexweather.R
 import ru.geekbrains.lessions2345.yandexweather.controller.observers.domain.PublisherDomain
 import ru.geekbrains.lessions2345.yandexweather.controller.observers.viewmodels.ResultCurrentViewModel
 import ru.geekbrains.lessions2345.yandexweather.controller.observers.viewmodels.ResultCurrentViewModelSetter
+import ru.geekbrains.lessions2345.yandexweather.controller.observers.viewmodels.UpdateState
 import ru.geekbrains.lessions2345.yandexweather.databinding.FragmentResultCurrentBinding
 import ru.geekbrains.lessions2345.yandexweather.domain.data.City
 import ru.geekbrains.lessions2345.yandexweather.domain.data.DataWeather
@@ -67,17 +69,8 @@ class ResultCurrentFragment(//region ЗАДАНИЕ ПЕРЕМЕННЫХ
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // Создание observer во vieModel
-        resultCurrentViewModel.getLiveData().observe(viewLifecycleOwner, Observer<DataWeather> {dataWeather: DataWeather ->
-           if (dataWeather != null) {
-               bindingReal?.let{
-                   it.resultCurrentConstraintLayoutCityName?.text = dataWeather.city?.name
-                   it.resultCurrentConstraintLayoutCityCoordinates?.text = "${dataWeather.city?.lat}; ${dataWeather.city?.lon}"
-                   it.resultCurrentConstraintLayoutTemperatureValue?.text = "${dataWeather.temperature}"
-                   it.resultCurrentConstraintLayoutFeelslikeValue?.text = "${dataWeather.feelsLike}"
-               }
-           } else {
-               Toast.makeText(context, "К серверу обратиться не получилось", Toast.LENGTH_LONG).show()
-           }
+        resultCurrentViewModel.getLiveData().observe(viewLifecycleOwner, Observer<UpdateState> {updateState: UpdateState ->
+           renderData(updateState)
         })
         bindingReal?.resultCurrentConstraintLayout?.setOnClickListener(View.OnClickListener {
             // Сброс фильтра места (города)
@@ -91,6 +84,29 @@ class ResultCurrentFragment(//region ЗАДАНИЕ ПЕРЕМЕННЫХ
                     if (city.country.equals("Россия") == true) true else false))
                 .commit()
         })
+    }
+
+    private fun renderData(updateState: UpdateState) {
+        when (updateState) {
+            is UpdateState.Success -> {
+                bindingReal?.resultCurrentConstraintLayoutLoadingLayout?.visibility = View.GONE
+                bindingReal?.let{
+                    it.resultCurrentConstraintLayoutCityName?.text = updateState.mainChooserGetter.getDataWeather()?.city?.name
+                    it.resultCurrentConstraintLayoutCityCoordinates?.text = "${updateState.mainChooserGetter.getDataWeather()?.city?.lat}; ${updateState.mainChooserGetter.getDataWeather()?.city?.lon}"
+                    it.resultCurrentConstraintLayoutTemperatureValue?.text = "${updateState.mainChooserGetter.getDataWeather()?.temperature}"
+                    it.resultCurrentConstraintLayoutFeelslikeValue?.text = "${updateState.mainChooserGetter.getDataWeather()?.feelsLike}"
+                }
+                Snackbar.make(bindingReal?.root!!, "Данные УСПЕШНО загружены", Snackbar.LENGTH_LONG).show()
+            }
+            UpdateState.Loading -> {
+                bindingReal?.resultCurrentConstraintLayoutLoadingLayout?.visibility = View.VISIBLE
+            }
+            is UpdateState.Error -> {
+                bindingReal?.resultCurrentConstraintLayoutLoadingLayout?.visibility = View.GONE
+                val throwable = updateState.error
+                Snackbar.make(bindingReal?.root!!, "ОШИБКА в загрузке данных: $throwable", Snackbar.LENGTH_LONG).show()
+            }
+        }
     }
 
     // Удаление binding при закрытии фрагмента

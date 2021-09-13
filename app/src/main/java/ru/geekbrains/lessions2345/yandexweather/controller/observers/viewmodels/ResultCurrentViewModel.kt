@@ -9,16 +9,27 @@ import ru.geekbrains.lessions2345.yandexweather.repository.facadeuser.Repository
 import java.lang.Thread.sleep
 
 class ResultCurrentViewModel(
-    private val liveDataToObserve: MutableLiveData<DataWeather> = MutableLiveData()): ViewModel() {
+    private val liveDataToObserve: MutableLiveData<UpdateState> = MutableLiveData()): ViewModel() {
 
     fun getLiveData() = liveDataToObserve
 
     fun getDataFromRemoteSource(repositoryWeatherImpl: RepositoryWeatherImpl, mainChooserGetter: MainChooserGetter) {
+        // Отправка запроса на получение погодных данных с сервера Yandex
         repositoryWeatherImpl.getWeatherFromRemoteSource(mainChooserGetter.getCurrentKnownCity()!!.lat, mainChooserGetter.getCurrentKnownCity()!!.lon, ConstantsController.ANSWER_LANGUAGE)
-        Thread {
-            sleep(1000)
-            // Передача данных в основном потоке postValue (postValue два раза подряд использовать нельзя)
-            liveDataToObserve.postValue(mainChooserGetter.getDataWeather())
-        }.start()
+        // Отслеживание состояния загрузки погодных данных
+        with(liveDataToObserve) {
+            // Отправка сообщения О ПРОЦЕССЕ ЗАГРУЗКИ
+            postValue(UpdateState.Loading)
+            Thread {
+                sleep(1000)
+                if (mainChooserGetter.getDataWeather()?.error == null) {
+                    // УСПЕШНАЯ ПЕРЕДАЧА погодных данных в основном потоке через postValue (postValue два раза подряд использовать нельзя)
+                    postValue(UpdateState.Success(mainChooserGetter))
+                } else {
+                    // Передача СООБЩЕНИЯ ОБ ОШИБКЕ при получении погодных данных с сервера Yandex
+                    postValue(UpdateState.Error(mainChooserGetter.getDataWeather()?.error))
+                }
+            }.start()
+        }
     }
 }

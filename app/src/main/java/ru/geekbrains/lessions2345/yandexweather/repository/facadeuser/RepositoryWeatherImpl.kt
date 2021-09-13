@@ -43,8 +43,8 @@ class RepositoryWeatherImpl(private val mainChooserSetter: MainChooserSetter) : 
                     }
                 }
 
-                override fun onFailure(call: Call<DataModel>, t: Throwable) {
-                    saveData(null, lat, lon, t)
+                override fun onFailure(call: Call<DataModel>, error: Throwable) {
+                    saveData(null, lat, lon, error)
                 }
             })
     }

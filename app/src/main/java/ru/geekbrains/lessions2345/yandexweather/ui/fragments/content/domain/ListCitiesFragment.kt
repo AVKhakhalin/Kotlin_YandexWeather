@@ -102,12 +102,10 @@ class ListCitiesFragment(isDataSetRusInitial: Boolean): Fragment(), OnItemViewCl
     private fun renderData(updateState: UpdateState) {
         when (updateState) {
             is UpdateState.ListCities -> {
-                binding.fragmentListCitiesLoadingLayout.visibility = View.GONE
                 val weather = updateState.mainChooserGetter.getKnownCites()
                 if (weather != null) {
                     adapter.setWeather(weather)
                 }
-                Snackbar.make(binding.root, "Success", Snackbar.LENGTH_LONG).show()
             }
             //else -> //TODO: Добавить случай с неуспешной загрузкой списка
         }

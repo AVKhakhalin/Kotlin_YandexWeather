@@ -19,15 +19,17 @@ class MainChooserSetter(mainChooser: MainChooser) {
         lat: Double,
         lon: Double,
         error: Throwable?
-    ) { // TODO: Сделать обработку события ошибки error
+    ) {
         this.dataModel = dataModel
         if (dataModel != null) {
-            setFact(dataModel.fact, lat, lon)
+            setFact(dataModel.fact, lat, lon, error)
+        } else {
+            setFact(null, lat, lon, error)
         }
     }
-    private fun setFact(fact: Fact?, lat: Double, lon: Double) {
+    private fun setFact(fact: Fact?, lat: Double, lon: Double, error: Throwable?) {
         mainChooser?.let{
-            it.setFact(fact, lat, lon)
+            it.setFact(fact, lat, lon, error)
         }
     }
     //endregion

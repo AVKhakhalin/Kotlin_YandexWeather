@@ -217,7 +217,7 @@ class MainChooser() {
     }
 
     // Установить фактические данные о погоде
-    fun setFact(fact: Fact?, lat: Double, lon: Double) {
+    fun setFact(fact: Fact?, lat: Double, lon: Double, error: Throwable?) {
         this.fact = fact
         if (fact != null) {
             dataWeather?.let{
@@ -236,6 +236,26 @@ class MainChooser() {
                 it.dayTime = fact.daytime
                 it.polar = fact.polar
                 it.season = fact.season
+                it.error = error
+            }
+        } else {
+            dataWeather?.let{
+                it.city = null
+                it.temperature = null
+                it.feelsLike = null
+                it.tempWater = null
+                it.iconCode = null
+                it.conditionCode = null
+                it.windSpeed = null
+                it.windGust = null
+                it.windDirection = null
+                it.mmPresure = null
+                it.paPressure = null
+                it.humidity = null
+                it.dayTime = null
+                it.polar = null
+                it.season = null
+                it.error = error
             }
         }
     }
