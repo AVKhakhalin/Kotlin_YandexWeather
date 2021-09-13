@@ -76,13 +76,17 @@ class ListCitiesFragment(isDataSetRusInitial: Boolean): Fragment(), OnItemViewCl
                 isDataSetRus = !isDataSetRus
                 if(!isDataSetRus){
                     binding.fragmentListCitiesFAB.setImageResource(R.drawable.ic_russia)
-                    listCitiesPublisherDomain.notifyDefaultFilterCountry("-Россия")
-                    listCitiesPublisherDomain.notifyDefaultFilterCity("")
+                    with(listCitiesPublisherDomain) {
+                        notifyDefaultFilterCountry("-Россия")
+                        notifyDefaultFilterCity("")
+                    }
                     listCitiesViewModel.getListCities()
                 }else {
                     binding.fragmentListCitiesFAB.setImageResource(R.drawable.ic_earth)
-                    listCitiesPublisherDomain.notifyDefaultFilterCountry("Россия")
-                    listCitiesPublisherDomain.notifyDefaultFilterCity("")
+                    with(listCitiesPublisherDomain) {
+                        notifyDefaultFilterCountry("Россия")
+                        notifyDefaultFilterCity("")
+                    }
                     listCitiesViewModel.getListCities()
                 }
             }

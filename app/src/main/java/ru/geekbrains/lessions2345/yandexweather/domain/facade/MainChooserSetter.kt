@@ -25,9 +25,9 @@ class MainChooserSetter(mainChooser: MainChooser) {
             setFact(dataModel.fact, lat, lon)
         }
     }
-    fun setFact(fact: Fact?, lat: Double, lon: Double) {
-        if (mainChooser != null) {
-            mainChooser?.setFact(fact, lat, lon)
+    private fun setFact(fact: Fact?, lat: Double, lon: Double) {
+        mainChooser?.let{
+            it.setFact(fact, lat, lon)
         }
     }
     //endregion
@@ -35,34 +35,34 @@ class MainChooserSetter(mainChooser: MainChooser) {
 
     // Добавление новго известного места (города) в список известных мест (городов)
     fun addKnownCities(city: City) {
-        if (mainChooser != null) {
+        mainChooser?.let {
             mainChooser?.addKnownCities(city)
         }
     }
 
     // Установка фильтра выбора места (города) по-умолчанию
     fun setDefaultFilterCity(defaultFilterCity: String) {
-        if (mainChooser != null) {
+        mainChooser?.let {
             mainChooser?.setDefaultFilterCity(defaultFilterCity)
         }
     }
 
     // Установка фильтра выбора страны по-умолчанию
     fun setDefaultFilterCountry(defaultFilterCountry: String) {
-        if (mainChooser != null) {
+        mainChooser?.let {
             mainChooser?.setDefaultFilterCountry(defaultFilterCountry)
         }
     }
 
     //region Методы установки позиции известного города, по которому последний раз запрошены погодные данные
     fun setPositionCurrentKnownCity(filterCity: String, filterCountry: String) {
-        if (mainChooser != null) {
+        mainChooser?.let {
             mainChooser?.setPositionCurrentKnownCity(filterCity, filterCountry)
         }
     }
 
     fun setPositionCurrentKnownCity(position: Int) {
-        if (mainChooser != null) {
+        mainChooser?.let {
             mainChooser?.setPositionCurrentKnownCity(position)
         }
     }
@@ -70,7 +70,7 @@ class MainChooserSetter(mainChooser: MainChooser) {
 
     // Установка начальных городов
     fun initKnownCities() {
-        if (mainChooser != null) {
+        mainChooser?.let {
             mainChooser?.initKnownCities()
         }
     }

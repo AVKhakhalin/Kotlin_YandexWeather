@@ -21,8 +21,8 @@ class ListCitiesPublisherDomain {
 
     // Разослать событие о смене пользователем фильтра страны
     fun notifyDefaultFilterCountry(defaultFilterCountry: String) {
-        if (observers != null) {
-            for (observer in observers!!) {
+        observers?.let {
+            for (observer in it) {
                 observer.updateFilterCountry(defaultFilterCountry)
             }
         }
@@ -30,8 +30,8 @@ class ListCitiesPublisherDomain {
 
     // Разослать событие о смене пользователем фильтра страны
     fun notifyDefaultFilterCity(defaultFilterCity: String) {
-        if (observers != null) {
-            for (observer in observers!!) {
+        observers?.let {
+            for (observer in it) {
                 observer.updateFilterCity(defaultFilterCity)
             }
         }

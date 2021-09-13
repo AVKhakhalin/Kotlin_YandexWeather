@@ -14,9 +14,8 @@ import ru.geekbrains.lessions2345.yandexweather.domain.data.DataWeather
 import ru.geekbrains.lessions2345.yandexweather.domain.facade.MainChooserSetter
 import ru.geekbrains.lessions2345.yandexweather.repository.ConstantsRepository
 
-class RepositoryWeatherImpl(mainChooserSetter: MainChooserSetter) : RepositoryWeather {
+class RepositoryWeatherImpl(private val mainChooserSetter: MainChooserSetter) : RepositoryWeather {
     private val retrofitImpl: RetrofitImpl = RetrofitImpl()
-    private val mainChooserSetter: MainChooserSetter = mainChooserSetter
 
     // Получение данных с сервера Yandex
     override fun getWeatherFromRemoteSource(lat: Double, lon: Double, lang: String) {
@@ -52,7 +51,7 @@ class RepositoryWeatherImpl(mainChooserSetter: MainChooserSetter) : RepositoryWe
 
     // Сохранение данных из dataModel в MainChooser (core)
     private fun saveData(dataModel: DataModel?, lat: Double, lon: Double, error: Throwable?) {
-        if (mainChooserSetter != null) {
+        mainChooserSetter?.let{
             mainChooserSetter.setDataModel(dataModel, lat, lon, error)
         }
     }

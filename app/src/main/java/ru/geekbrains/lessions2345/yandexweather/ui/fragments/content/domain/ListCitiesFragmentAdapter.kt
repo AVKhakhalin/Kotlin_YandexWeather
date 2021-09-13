@@ -35,10 +35,12 @@ class ListCitiesFragmentAdapter:RecyclerView.Adapter<ListCitiesFragmentAdapter.M
 
      inner class MainFragmentViewHolder(view:View):RecyclerView.ViewHolder(view){
         fun render(city: City){
-            itemView.findViewById<TextView>(R.id.recycler_item_text_view).text = city.name
-            itemView.setOnClickListener{
+            with(itemView) {
+                findViewById<TextView>(R.id.recycler_item_text_view).text = city.name
+                setOnClickListener{
                     listener.onItemClick(city)
                 }
+            }
         }
     }
 }

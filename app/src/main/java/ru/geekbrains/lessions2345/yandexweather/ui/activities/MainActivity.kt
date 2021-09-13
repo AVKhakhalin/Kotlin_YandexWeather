@@ -29,11 +29,11 @@ class MainActivity:
     //region ЗАДАНИЕ ПЕРЕМЕННЫХ
     private var resultCurrentViewModel: ResultCurrentViewModel = ResultCurrentViewModel()
     private var listCitiesViewModel: ListCitiesViewModel = ListCitiesViewModel()
-    private val publisherDomain : PublisherDomain = PublisherDomain()
-    private val listCitiesPublisherDomain : ListCitiesPublisherDomain = ListCitiesPublisherDomain()
-    private val mainChooser : MainChooser = MainChooser()
-    private val mainChooserSetter : MainChooserSetter = MainChooserSetter(mainChooser)
-    private val mainChooserGetter : MainChooserGetter = MainChooserGetter(mainChooser)
+    private val publisherDomain: PublisherDomain = PublisherDomain()
+    private val listCitiesPublisherDomain: ListCitiesPublisherDomain = ListCitiesPublisherDomain()
+    private val mainChooser: MainChooser = MainChooser()
+    private val mainChooserSetter: MainChooserSetter = MainChooserSetter(mainChooser)
+    private val mainChooserGetter: MainChooserGetter = MainChooserGetter(mainChooser)
     private val repositoryWeatherImpl: RepositoryWeatherImpl = RepositoryWeatherImpl(mainChooserSetter)
     //endregion
 
@@ -93,8 +93,8 @@ class MainActivity:
             val lonStringArray: Array<String> = Array<String>(numberKnownCities) { i -> "lone$i"}
             val countryStringArray: Array<String> = Array<String>(numberKnownCities) { i -> "country$i"}
             val knownCities: List<City>? = mainChooserGetter.getKnownCites("","")
-            if (knownCities != null) {
-                knownCities.forEachIndexed { index, element ->
+            knownCities?.let{
+                it.forEachIndexed { index, element ->
                     editor.putString(nameStringArray[index], element.name)
                     editor.putFloat(latStringArray[index], element.lat.toFloat())
                     editor.putFloat(lonStringArray[index], element.lon.toFloat())
@@ -102,10 +102,12 @@ class MainActivity:
                 }
             }
         }
-        editor.putInt(ConstantsUi.SHARED_POSITION_CURRENT_KNOWN_CITY, mainChooserGetter.getPositionCurrentKnownCity())
-        editor.putString(ConstantsUi.SHARED_DEFAULT_FILTER_CITY, mainChooserGetter.getDefaultFilterCity())
-        editor.putString(ConstantsUi.SHARED_DEFAULT_FILTER_COUNTRY, mainChooserGetter.getDefaultFilterCountry())
-        editor.apply()
+        with(editor) {
+            putInt(ConstantsUi.SHARED_POSITION_CURRENT_KNOWN_CITY, mainChooserGetter.getPositionCurrentKnownCity())
+            putString(ConstantsUi.SHARED_DEFAULT_FILTER_CITY, mainChooserGetter.getDefaultFilterCity())
+            putString(ConstantsUi.SHARED_DEFAULT_FILTER_COUNTRY, mainChooserGetter.getDefaultFilterCountry())
+            apply()
+        }
     }
 
     // Получение настроек из SharedPreferences
@@ -125,9 +127,11 @@ class MainActivity:
                     sharedPreferences.getString(countryStringArray[it], ConstantsUi.UNKNOWN_TEXT)!!))
             }
         }
-        mainChooserSetter.setPositionCurrentKnownCity(sharedPreferences.getInt(ConstantsUi.SHARED_POSITION_CURRENT_KNOWN_CITY, -1))
-        mainChooserSetter.setDefaultFilterCity(sharedPreferences.getString(ConstantsUi.SHARED_DEFAULT_FILTER_CITY, "")!!)
-        mainChooserSetter.setDefaultFilterCountry(sharedPreferences.getString(ConstantsUi.SHARED_DEFAULT_FILTER_COUNTRY, "")!!)
+        mainChooserSetter.also{
+            it.setPositionCurrentKnownCity(sharedPreferences.getInt(ConstantsUi.SHARED_POSITION_CURRENT_KNOWN_CITY, -1))
+            it.setDefaultFilterCity(sharedPreferences.getString(ConstantsUi.SHARED_DEFAULT_FILTER_CITY, "")!!)
+            it.setDefaultFilterCountry(sharedPreferences.getString(ConstantsUi.SHARED_DEFAULT_FILTER_COUNTRY, "")!!)
+        }
 
         // Установка известных городов по-умолчанию
         if (mainChooserGetter.getNumberKnownCites() == 0) {

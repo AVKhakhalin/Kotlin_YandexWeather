@@ -69,18 +69,22 @@ class ResultCurrentFragment(//region ЗАДАНИЕ ПЕРЕМЕННЫХ
         // Создание observer во vieModel
         resultCurrentViewModel.getLiveData().observe(viewLifecycleOwner, Observer<DataWeather> {dataWeather: DataWeather ->
            if (dataWeather != null) {
-               bindingReal?.resultCurrentConstraintLayoutCityName?.text = dataWeather.city?.name
-               bindingReal?.resultCurrentConstraintLayoutCityCoordinates?.text = "${dataWeather.city?.lat}; ${dataWeather.city?.lon}"
-               bindingReal?.resultCurrentConstraintLayoutTemperatureValue?.text = "${dataWeather.temperature}"
-               bindingReal?.resultCurrentConstraintLayoutFeelslikeValue?.text = "${dataWeather.feelsLike}"
+               bindingReal?.let{
+                   it.resultCurrentConstraintLayoutCityName?.text = dataWeather.city?.name
+                   it.resultCurrentConstraintLayoutCityCoordinates?.text = "${dataWeather.city?.lat}; ${dataWeather.city?.lon}"
+                   it.resultCurrentConstraintLayoutTemperatureValue?.text = "${dataWeather.temperature}"
+                   it.resultCurrentConstraintLayoutFeelslikeValue?.text = "${dataWeather.feelsLike}"
+               }
            } else {
                Toast.makeText(context, "К серверу обратиться не получилось", Toast.LENGTH_LONG).show()
            }
         })
         bindingReal?.resultCurrentConstraintLayout?.setOnClickListener(View.OnClickListener {
             // Сброс фильтра места (города)
-            publisherDomain.notifyDefaultFilterCity("")
-            publisherDomain.notifyPositionCurrentKnownCity(-1)
+            with(publisherDomain) {
+                notifyDefaultFilterCity("")
+                notifyPositionCurrentKnownCity(-1)
+            }
             // Отображение фрагмента со списком мест (city) для выбора погоды по другому интересующему месту
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_result_weather_container, ListCitiesFragment.newInstance(

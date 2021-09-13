@@ -1,7 +1,5 @@
 package ru.geekbrains.lessions2345.yandexweather.domain.core
 
-import android.widget.Toast
-import ru.geekbrains.lessions2345.yandexweather.domain.ConstantsDomain
 import ru.geekbrains.lessions2345.yandexweather.domain.data.City
 import ru.geekbrains.lessions2345.yandexweather.domain.data.DataSettings
 import ru.geekbrains.lessions2345.yandexweather.domain.data.DataWeather
@@ -14,7 +12,7 @@ class MainChooser() {
     //region ЗАДАНИЕ ПЕРЕМЕННЫХ
     private var dataWeather: DataWeather? = DataWeather()
     private var dataSettings: DataSettings? = null
-    private var knownCities: MutableList<City>? = null
+    private var knownCities: MutableList<City>? = mutableListOf<City>()
     private var positionCurrentKnownCity: Int = -1
     private var defaultFilterCity: String = ""
     private var defaultFilterCountry: String = ""
@@ -23,29 +21,27 @@ class MainChooser() {
 
     // Установка начальных городов
     fun initKnownCities() {
-        if (knownCities == null) {
-            knownCities = mutableListOf(
-                City("Москва", 55.755826, 37.617299900000035, "Россия"),
-                City("Санкт-Петербург", 59.9342802, 30.335098600000038, "Россия"),
-                City("Новосибирск", 55.00835259999999, 82.93573270000002, "Россия"),
-                City("Екатеринбург", 56.83892609999999, 60.60570250000001, "Россия"),
-                City("Нижний Новгород", 56.2965039, 43.936059, "Россия"),
-                City("Казань", 55.8304307, 49.06608060000008, "Россия"),
-                City("Челябинск", 55.1644419, 61.4368432, "Россия"),
-                City("Омск", 54.9884804, 73.32423610000001, "Россия"),
-                City("Ростов-на-Дону", 47.2357137, 39.701505, "Россия"),
-                City("Уфа", 54.7387621, 55.972055400000045, "Россия"),
-                City("Лондон", 51.5085300, -0.1257400, "Великобритания"),
-                City("Токио", 35.6895000, 139.6917100, "Япония"),
-                City("Париж", 48.8534100, 2.3488000, "Франция"),
-                City("Берлин", 52.52000659999999, 13.404953999999975, "Германия"),
-                City("Рим", 41.9027835, 12.496365500000024, "Италия"),
-                City("Минск", 53.90453979999999, 27.561524400000053, "Белоруссия"),
-                City("Стамбул", 41.0082376, 28.97835889999999, "Турция"),
-                City("Вашингтон", 38.9071923, -77.03687070000001, "США"),
-                City("Киев", 50.4501, 30.523400000000038, "Украина"),
-                City("Пекин", 39.90419989999999, 116.40739630000007, "Китай")
-            )
+        knownCities?.apply {
+            add(City("Москва", 55.755826, 37.617299900000035, "Россия"))
+            add(City("Санкт-Петербург", 59.9342802, 30.335098600000038, "Россия"))
+            add(City("Новосибирск", 55.00835259999999, 82.93573270000002, "Россия"))
+            add(City("Екатеринбург", 56.83892609999999, 60.60570250000001, "Россия"))
+            add(City("Нижний Новгород", 56.2965039, 43.936059, "Россия"))
+            add(City("Казань", 55.8304307, 49.06608060000008, "Россия"))
+            add(City("Челябинск", 55.1644419, 61.4368432, "Россия"))
+            add(City("Омск", 54.9884804, 73.32423610000001, "Россия"))
+            add(City("Ростов-на-Дону", 47.2357137, 39.701505, "Россия"))
+            add(City("Уфа", 54.7387621, 55.972055400000045, "Россия"))
+            add(City("Лондон", 51.5085300, -0.1257400, "Великобритания"))
+            add(City("Токио", 35.6895000, 139.6917100, "Япония"))
+            add(City("Париж", 48.8534100, 2.3488000, "Франция"))
+            add(City("Берлин", 52.52000659999999, 13.404953999999975, "Германия"))
+            add(City("Рим", 41.9027835, 12.496365500000024, "Италия"))
+            add(City("Минск", 53.90453979999999, 27.561524400000053, "Белоруссия"))
+            add(City("Стамбул", 41.0082376, 28.97835889999999, "Турция"))
+            add(City("Вашингтон", 38.9071923, -77.03687070000001, "США"))
+            add(City("Киев", 50.4501, 30.523400000000038, "Украина"))
+            add(City("Пекин", 39.90419989999999, 116.40739630000007, "Китай"))
         }
     }
 
@@ -80,9 +76,11 @@ class MainChooser() {
 
     // Получение позиции известного города, по которому последний раз запрошены погодные данные
     fun getPositionCurrentKnownCity(): Int {
-        if ((positionCurrentKnownCity > -1) && (knownCities != null)) {
-            defaultFilterCity = knownCities?.get(positionCurrentKnownCity)!!.name
-            defaultFilterCountry = knownCities?.get(positionCurrentKnownCity)!!.country
+        if (positionCurrentKnownCity > -1) {
+            knownCities?.let {
+                defaultFilterCity = it[positionCurrentKnownCity].name
+                defaultFilterCountry = it[positionCurrentKnownCity].country
+            }
         }
         return positionCurrentKnownCity
     }
@@ -91,7 +89,7 @@ class MainChooser() {
     fun setPositionCurrentKnownCity(filterCity: String, filterCountry: String) {
         if (knownCities != null) {
             knownCities?.forEachIndexed() { position, city ->
-                if (city.country == filterCountry && city.name == filterCity) {
+                if ((city.country == filterCountry) && (city.name == filterCity)) {
                     defaultFilterCity = city.name
                     defaultFilterCountry = city.country
                     positionCurrentKnownCity = position
@@ -102,8 +100,10 @@ class MainChooser() {
     }
     fun setPositionCurrentKnownCity(position: Int) {
         if ((positionCurrentKnownCity > -1) && (knownCities != null)) {
-            defaultFilterCity = knownCities?.get(positionCurrentKnownCity)!!.name
-            defaultFilterCountry = knownCities?.get(positionCurrentKnownCity)!!.country
+            knownCities?.let{
+                defaultFilterCity = it[positionCurrentKnownCity].name
+                defaultFilterCountry = it[positionCurrentKnownCity].country
+            }
         }
         positionCurrentKnownCity = position
     }
@@ -118,61 +118,68 @@ class MainChooser() {
         val filterCountry: String = defaultFilterCountry
         return analiseKnownCities(filterCity, filterCountry)
     }
-    fun analiseKnownCities(filterCity: String, filterCountry: String): MutableList<City>? {
+    private fun analiseKnownCities(filterCity: String, filterCountry: String): MutableList<City>? {
         if ((filterCity == null) || (filterCountry == null)) {
             return mutableListOf(City("Москва", 55.7522, 37.6156, "Россия"))
         } else {
             // Корректировка фильтров места (города) и страны
-            val newFilterCity = filterCity
-            var newFilterCountry = filterCountry
+            val newFilterCountry = filterCountry
             var newKnownCities: MutableList<City>? = null
             // Фильтрация и построение списка мест (городов)
-            if (newFilterCountry.equals("") == true) {
+            if (newFilterCountry == "") {
                 // Фильтрация только ПО НАЗВАНИЮ ГОРОДА
-                knownCities?.forEach { city ->
-                    if ((newFilterCity.equals("") == true) || (city.name.equals(newFilterCity) == true) || (city.name.indexOf(
-                            newFilterCity
-                        ) > -1)
-                    ) {
-                        if (newKnownCities == null) {
-                            newKnownCities = mutableListOf(city)
-                        } else {
-                            newKnownCities?.add(city)
+                return knownCities?.run {
+                    forEach { city ->
+                        if ((filterCity == "") || (city.name == filterCity) || (city.name.indexOf(
+                                filterCity
+                            ) > -1)
+                        ) {
+                            if (newKnownCities == null) {
+                                newKnownCities = mutableListOf(city)
+                            } else {
+                                newKnownCities?.add(city)
+                            }
                         }
                     }
+                    newKnownCities
                 }
-                return knownCities
             } else {
                 // Фильтрация в случае ИСКЛЮЧЕНИЯ СТРАНЫ из списка
                 if ((newFilterCountry.length > 1) && (newFilterCountry.indexOf("-") == 0)) {
                     if (knownCities != null) {
                         val newFilterCountry: String = newFilterCountry.substring(1)
-                        knownCities?.forEach { city ->
-                            if (city.country != newFilterCountry && (city.country.indexOf(newFilterCountry) == -1) && (newFilterCity == "" || city.name == newFilterCity || (city.name.indexOf(newFilterCity) > -1))) {
-                                if (newKnownCities == null) {
-                                    newKnownCities = mutableListOf(city)
-                                } else {
-                                    newKnownCities?.add(city)
+                        return knownCities?.run{
+                                forEach { city ->
+                                if (city.country != newFilterCountry && (city.country.indexOf(newFilterCountry) == -1) && (filterCity == "" || city.name == filterCity || (city.name.indexOf(
+                                        filterCity
+                                    ) > -1))) {
+                                    if (newKnownCities == null) {
+                                        newKnownCities = mutableListOf(city)
+                                    } else {
+                                        newKnownCities?.add(city)
+                                    }
                                 }
                             }
+                            newKnownCities
                         }
-                        return newKnownCities
                     } else {
                         return mutableListOf(City("Москва(ERR)", 55.7522, 37.6156, "Россия(ERR)"))
                     }
                 } else {
                     // Фильтрация в случае поиска ПО НАЗВАНИЯМ СТРАНЫ И ГОРОДА
                     if (knownCities != null) {
-                        knownCities?.forEach { city ->
-                            if (city.country == newFilterCountry && (newFilterCity == "" || city.name == newFilterCity || (city.name.indexOf(newFilterCity) > -1))) {
-                                if (newKnownCities == null) {
-                                    newKnownCities = mutableListOf(city)
-                                } else {
-                                    newKnownCities?.add(city)
+                        return knownCities?.run{
+                            forEach { city ->
+                                if ((city.country == newFilterCountry) && ((filterCity == "") || (city.name == filterCity) || (city.name.indexOf(filterCity) > -1))) {
+                                    if (newKnownCities == null) {
+                                        newKnownCities = mutableListOf(city)
+                                    } else {
+                                        newKnownCities?.add(city)
+                                    }
                                 }
                             }
+                            newKnownCities
                         }
-                        return newKnownCities
                     } else {
                         return mutableListOf(City("Москва(ERR)", 55.7522, 37.6156, "Россия(ERR)"))
                     }
@@ -193,41 +200,43 @@ class MainChooser() {
 
     // Получить количество известных городов
     fun getNumberKnownCities(): Int {
-        if (knownCities == null) {
-            return 0
+        return if (knownCities == null) {
+            0
         } else {
-            return knownCities!!.size
+            knownCities!!.size
         }
     }
 
     // Получить данные о погоде сейчас
     fun getDataWeather(): DataWeather? {
-        if (dataWeather == null) {
-            return null
+        return if (dataWeather == null) {
+            null
         } else {
-            return dataWeather
+            dataWeather
         }
     }
 
     // Установить фактические данные о погоде
     fun setFact(fact: Fact?, lat: Double, lon: Double) {
         this.fact = fact
-        if ((fact != null) && (dataWeather != null)) {
-            dataWeather?.city = City(getCurrentKnownCity()!!.name, lat, lon, getCurrentKnownCity()!!.country)
-            dataWeather?.temperature = fact.temp
-            dataWeather?.feelsLike = fact.feels_like
-            dataWeather?.tempWater = fact.temp_water
-            dataWeather?.iconCode = fact.icon
-            dataWeather?.conditionCode = fact.condition
-            dataWeather?.windSpeed = fact.wind_speed
-            dataWeather?.windGust = fact.wind_gust
-            dataWeather?.windDirection = fact.wind_dir
-            dataWeather?.mmPresure = fact.pressure_mm
-            dataWeather?.paPressure = fact.pressure_pa
-            dataWeather?.humidity = fact.humidity
-            dataWeather?.dayTime = fact.daytime
-            dataWeather?.polar = fact.polar
-            dataWeather?.season = fact.season
+        if (fact != null) {
+            dataWeather?.let{
+                it.city = City(getCurrentKnownCity()!!.name, lat, lon, getCurrentKnownCity()!!.country)
+                it.temperature = fact.temp
+                it.feelsLike = fact.feels_like
+                it.tempWater = fact.temp_water
+                it.iconCode = fact.icon
+                it.conditionCode = fact.condition
+                it.windSpeed = fact.wind_speed
+                it.windGust = fact.wind_gust
+                it.windDirection = fact.wind_dir
+                it.mmPresure = fact.pressure_mm
+                it.paPressure = fact.pressure_pa
+                it.humidity = fact.humidity
+                it.dayTime = fact.daytime
+                it.polar = fact.polar
+                it.season = fact.season
+            }
         }
     }
 }

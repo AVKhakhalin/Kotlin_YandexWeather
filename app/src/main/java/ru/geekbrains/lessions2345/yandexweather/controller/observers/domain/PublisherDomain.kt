@@ -23,8 +23,8 @@ class PublisherDomain {
 
     // Разослать событие о действиях пользователя
     fun notifyCity(city: City) {
-        if (observers != null) {
-            for (observer in observers!!) {
+        observers?.let {
+            for (observer in it) {
                 observer.updateCity(city)
             }
         }
@@ -32,8 +32,8 @@ class PublisherDomain {
 
     // Разослать событие о смене пользователем фильтра страны
     fun notifyDefaultFilterCity(defaultFilterCity: String) {
-        if (observers != null) {
-            for (observer in observers!!) {
+        observers?.let {
+            for (observer in it) {
                 observer.updateFilterCity(defaultFilterCity)
             }
         }
@@ -41,8 +41,8 @@ class PublisherDomain {
 
     // Разослать событие о смене позиции текущего известного места (города)
     fun notifyPositionCurrentKnownCity(positionCurrentKnownCity: Int) {
-        if (observers != null) {
-            for (observer in observers!!) {
+        observers?.let {
+            for (observer in it) {
                 observer.updatePositionCurrentKnownCity(positionCurrentKnownCity)
             }
         }
