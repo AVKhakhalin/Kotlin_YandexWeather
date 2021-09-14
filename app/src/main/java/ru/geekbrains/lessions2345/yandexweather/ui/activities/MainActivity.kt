@@ -34,7 +34,6 @@ class MainActivity:
     private val mainChooser: MainChooser = MainChooser()
     private val mainChooserSetter: MainChooserSetter = MainChooserSetter(mainChooser)
     private val mainChooserGetter: MainChooserGetter = MainChooserGetter(mainChooser)
-    private val repositoryWeatherImpl: RepositoryWeatherImpl = RepositoryWeatherImpl(mainChooserSetter)
     //endregion
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -163,7 +162,7 @@ class MainActivity:
     override fun updateCity(city: City) {
         mainChooserSetter.setPositionCurrentKnownCity(city.name, city.country)
         // Получение данных в resultCurrentViewModel
-        resultCurrentViewModel.getDataFromRemoteSource(repositoryWeatherImpl, mainChooserGetter)
+        resultCurrentViewModel.getDataFromRemoteSource(mainChooserSetter, mainChooserGetter)
     }
     //endregion
 }
