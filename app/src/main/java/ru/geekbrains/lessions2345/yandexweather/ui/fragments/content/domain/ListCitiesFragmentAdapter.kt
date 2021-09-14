@@ -18,18 +18,16 @@ class ListCitiesFragmentAdapter:RecyclerView.Adapter<ListCitiesFragmentAdapter.M
         notifyDataSetChanged()
     }
 
-    fun setOnItemViewClickListener(onItemViewClickListener:OnItemViewClickListener){
+    fun setOnItemViewClickListener(onItemViewClickListener:OnItemViewClickListener) {
         listener = onItemViewClickListener
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainFragmentViewHolder {
-        return MainFragmentViewHolder(LayoutInflater.from(parent.context)
-                    .inflate(R.layout.fragment_list_cities_recycler_item,parent,false))
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainFragmentViewHolder =
+        MainFragmentViewHolder(LayoutInflater.from(parent.context)
+                .inflate(R.layout.fragment_list_cities_recycler_item,parent,false))
 
-    override fun onBindViewHolder(holder: MainFragmentViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MainFragmentViewHolder, position: Int) =
         holder.render(weatherData[position])
-    }
 
     override fun getItemCount() = weatherData.size
 

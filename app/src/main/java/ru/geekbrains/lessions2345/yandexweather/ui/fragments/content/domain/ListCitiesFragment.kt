@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.snackbar.Snackbar
 import ru.geekbrains.lessions2345.yandexweather.R
 import ru.geekbrains.lessions2345.yandexweather.controller.observers.domain.ListCitiesPublisherDomain
 import ru.geekbrains.lessions2345.yandexweather.controller.observers.viewmodels.ListCitiesViewModel
@@ -16,6 +15,7 @@ import ru.geekbrains.lessions2345.yandexweather.controller.observers.viewmodels.
 import ru.geekbrains.lessions2345.yandexweather.controller.observers.viewmodels.UpdateState
 import ru.geekbrains.lessions2345.yandexweather.databinding.FragmentListCitiesBinding
 import ru.geekbrains.lessions2345.yandexweather.domain.data.City
+import ru.geekbrains.lessions2345.yandexweather.ui.ConstantsUi
 import ru.geekbrains.lessions2345.yandexweather.ui.activities.MainActivity
 import ru.geekbrains.lessions2345.yandexweather.ui.fragments.content.result.ResultCurrentFragment
 import ru.geekbrains.lesson_1423_2_2_main.view.OnItemViewClickListener
@@ -77,15 +77,15 @@ class ListCitiesFragment(isDataSetRusInitial: Boolean): Fragment(), OnItemViewCl
                 if(!isDataSetRus){
                     binding.fragmentListCitiesFAB.setImageResource(R.drawable.ic_russia)
                     with(listCitiesPublisherDomain) {
-                        notifyDefaultFilterCountry("-Россия")
-                        notifyDefaultFilterCity("")
+                        notifyDefaultFilterCountry(ConstantsUi.FILTER_NOT_RUSSIA)
+                        notifyDefaultFilterCity(ConstantsUi.DEFAULT_FILTER_CITY)
                     }
                     listCitiesViewModel.getListCities()
                 }else {
                     binding.fragmentListCitiesFAB.setImageResource(R.drawable.ic_earth)
                     with(listCitiesPublisherDomain) {
-                        notifyDefaultFilterCountry("Россия")
-                        notifyDefaultFilterCity("")
+                        notifyDefaultFilterCountry(ConstantsUi.FILTER_RUSSIA)
+                        notifyDefaultFilterCity(ConstantsUi.DEFAULT_FILTER_CITY)
                     }
                     listCitiesViewModel.getListCities()
                 }

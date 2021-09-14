@@ -209,11 +209,7 @@ class MainChooser() {
 
     // Получить данные о погоде сейчас
     fun getDataWeather(): DataWeather? {
-        return if (dataWeather == null) {
-            null
-        } else {
-            dataWeather
-        }
+        return dataWeather
     }
 
     // Установить фактические данные о погоде

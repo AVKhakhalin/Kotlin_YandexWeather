@@ -36,44 +36,20 @@ class MainChooserSetter(mainChooser: MainChooser) {
 
 
     // Добавление новго известного места (города) в список известных мест (городов)
-    fun addKnownCities(city: City) {
-        mainChooser?.let {
-            mainChooser?.addKnownCities(city)
-        }
-    }
+    fun addKnownCities(city: City) = mainChooser?.let {mainChooser?.addKnownCities(city)}
 
     // Установка фильтра выбора места (города) по-умолчанию
-    fun setDefaultFilterCity(defaultFilterCity: String) {
-        mainChooser?.let {
-            mainChooser?.setDefaultFilterCity(defaultFilterCity)
-        }
-    }
+    fun setDefaultFilterCity(defaultFilterCity: String) = mainChooser?.let {mainChooser?.setDefaultFilterCity(defaultFilterCity)}
 
     // Установка фильтра выбора страны по-умолчанию
-    fun setDefaultFilterCountry(defaultFilterCountry: String) {
-        mainChooser?.let {
-            mainChooser?.setDefaultFilterCountry(defaultFilterCountry)
-        }
-    }
+    fun setDefaultFilterCountry(defaultFilterCountry: String) = mainChooser?.let {mainChooser?.setDefaultFilterCountry(defaultFilterCountry)}
 
     //region Методы установки позиции известного города, по которому последний раз запрошены погодные данные
-    fun setPositionCurrentKnownCity(filterCity: String, filterCountry: String) {
-        mainChooser?.let {
-            mainChooser?.setPositionCurrentKnownCity(filterCity, filterCountry)
-        }
-    }
+    fun setPositionCurrentKnownCity(filterCity: String, filterCountry: String) = mainChooser?.let {mainChooser?.setPositionCurrentKnownCity(filterCity, filterCountry)}
 
-    fun setPositionCurrentKnownCity(position: Int) {
-        mainChooser?.let {
-            mainChooser?.setPositionCurrentKnownCity(position)
-        }
-    }
+    fun setPositionCurrentKnownCity(position: Int) = mainChooser?.let {mainChooser?.setPositionCurrentKnownCity(position)}
     //region
 
     // Установка начальных городов
-    fun initKnownCities() {
-        mainChooser?.let {
-            mainChooser?.initKnownCities()
-        }
-    }
+    fun initKnownCities() = mainChooser?.let {mainChooser?.initKnownCities()}
 }

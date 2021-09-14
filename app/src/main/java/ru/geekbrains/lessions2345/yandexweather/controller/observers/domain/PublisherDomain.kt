@@ -17,9 +17,7 @@ class PublisherDomain {
     }
 
     // Отписаться от паблишера
-    fun unsubscribe(observer: ObserverDomain) {
-        observers?.remove(observer)
-    }
+    fun unsubscribe(observer: ObserverDomain) = observers?.let{it.remove(observer)}
 
     // Разослать событие о действиях пользователя
     fun notifyCity(city: City) {

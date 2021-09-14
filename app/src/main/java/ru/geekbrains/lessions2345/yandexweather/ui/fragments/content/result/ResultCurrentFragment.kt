@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,7 +16,6 @@ import ru.geekbrains.lessions2345.yandexweather.controller.observers.viewmodels.
 import ru.geekbrains.lessions2345.yandexweather.controller.observers.viewmodels.UpdateState
 import ru.geekbrains.lessions2345.yandexweather.databinding.FragmentResultCurrentBinding
 import ru.geekbrains.lessions2345.yandexweather.domain.data.City
-import ru.geekbrains.lessions2345.yandexweather.domain.data.DataWeather
 import ru.geekbrains.lessions2345.yandexweather.ui.activities.MainActivity
 import ru.geekbrains.lesson_1423_2_2_main.view.main.ListCitiesFragment
 
@@ -42,7 +40,7 @@ class ResultCurrentFragment(//region ЗАДАНИЕ ПЕРЕМЕННЫХ
         }
 
     // Создание наблюдателя в domain
-    var publisherDomain : PublisherDomain = PublisherDomain()
+    var publisherDomain: PublisherDomain = PublisherDomain()
     //endregion
 
     override fun onAttach(context: Context) {

@@ -16,5 +16,11 @@ class ConstantsUi {
         val UNKNOWN_TEXT: String = "unknown"
         @JvmField
         val ZERO_FLOAT: Float = 0f
+        @JvmField
+        val FILTER_RUSSIA: String = "Россия"
+        @JvmField
+        val FILTER_NOT_RUSSIA: String = "-Россия"
+        @JvmField
+        val DEFAULT_FILTER_CITY: String = ""
     }
 }

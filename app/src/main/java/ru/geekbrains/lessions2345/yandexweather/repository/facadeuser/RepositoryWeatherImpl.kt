@@ -18,19 +18,15 @@ class RepositoryWeatherImpl(private val mainChooserSetter: MainChooserSetter) : 
     private val retrofitImpl: RetrofitImpl = RetrofitImpl()
 
     // Получение данных с сервера Yandex
-    override fun getWeatherFromRemoteSource(lat: Double, lon: Double, lang: String) {
-        sendServerRequest(lat, lon, lang)
-    }
+    override fun getWeatherFromRemoteSource(lat: Double, lon: Double, lang: String) = sendServerRequest(lat, lon, lang)
 
     // Получение данных из локального источника
-    override fun getWeatherFromLocalSource(): DataWeather {
-        return DataWeather()
-    }
+    override fun getWeatherFromLocalSource(): DataWeather = DataWeather()
 
     //region МЕТОДЫ ПОЛУЧЕНИЯ ДАННЫХ С СЕРВЕРА YANDEX
     private fun sendServerRequest(lat: Double, lon: Double, lang: String) {
         retrofitImpl.getWeatherApi()
-            .getWeather(ConstantsRepository.yandexKeyValue, lat, lon, lang)
+            .getWeather(ConstantsRepository.YANDEX_KEY_VALUE, lat, lon, lang)
             .enqueue(object : Callback<DataModel> {
                 override fun onResponse(
                     call: Call<DataModel>,
@@ -50,11 +46,9 @@ class RepositoryWeatherImpl(private val mainChooserSetter: MainChooserSetter) : 
     }
 
     // Сохранение данных из dataModel в MainChooser (core)
-    private fun saveData(dataModel: DataModel?, lat: Double, lon: Double, error: Throwable?) {
-        mainChooserSetter?.let{
+    private fun saveData(dataModel: DataModel?, lat: Double, lon: Double, error: Throwable?) = mainChooserSetter?.let{
             mainChooserSetter.setDataModel(dataModel, lat, lon, error)
         }
-    }
     //endregion
 }
 
@@ -71,7 +65,7 @@ interface WeatherAPI {
 class RetrofitImpl {
     fun getWeatherApi(): WeatherAPI {
         val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl(ConstantsRepository.baseUrl)
+            .baseUrl(ConstantsRepository.BASE_URL)
             .addConverterFactory(
                 GsonConverterFactory.create(
                     GsonBuilder().setLenient().create()

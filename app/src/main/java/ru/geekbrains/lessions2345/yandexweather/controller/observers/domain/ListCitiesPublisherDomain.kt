@@ -15,9 +15,7 @@ class ListCitiesPublisherDomain {
     }
 
     // Отписаться от паблишера
-    fun unsubscribe(observer: ObserverDomain) {
-        observers?.remove(observer)
-    }
+    fun unsubscribe(observer: ObserverDomain) = observers?.let {it.remove(observer)}
 
     // Разослать событие о смене пользователем фильтра страны
     fun notifyDefaultFilterCountry(defaultFilterCountry: String) {

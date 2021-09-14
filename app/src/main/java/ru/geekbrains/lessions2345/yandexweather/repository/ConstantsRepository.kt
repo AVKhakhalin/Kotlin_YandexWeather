@@ -4,19 +4,19 @@ class ConstantsRepository {
     companion object {
         // Константы для получения данных о погоде
         @JvmField
-        val baseUrl : String = "https://api.weather.yandex.ru/"
+        val BASE_URL : String = "https://api.weather.yandex.ru/"
         @JvmField
-        val endPoint : String = "v2/informers"
+        val END_POINT : String = "v2/informers"
         @JvmField
-        val yandexKeyName : String = "X-Yandex-API-Key"
+        val YANDEX_KEY_TITLE : String = "X-Yandex-API-Key"
         @JvmField
-        val yandexKeyValue : String = "ebbee072-d212-420e-9f62-4d716b0499e9"
+        val YANDEX_KEY_VALUE : String = "ebbee072-d212-420e-9f62-4d716b0499e9"
         @JvmField
-        val latName : String = "lat"
+        val LATITUDE_NAME : String = "lat"
         @JvmField
-        val lonName : String = "lon"
+        val LONGITUDE_NAME : String = "lon"
         @JvmField
-        val langName : String = "lang"
+        val LANGUAGE: String = "lang"
 
         // Константы для локальных настроек программы
     }
