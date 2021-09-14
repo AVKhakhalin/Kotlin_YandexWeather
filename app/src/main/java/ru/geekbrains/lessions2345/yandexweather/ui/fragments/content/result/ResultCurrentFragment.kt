@@ -53,7 +53,7 @@ class ResultCurrentFragment(//region ЗАДАНИЕ ПЕРЕМЕННЫХ
         (context as ResultCurrentViewModelSetter).setResultCurrentViewModel(resultCurrentViewModel)
         // Получение наблюдателя для domain
         publisherDomain = (context as MainActivity).getPublisherDomain()
-        // Установка выбранного места (города) как текущего известного места (города). Теперь при обращении к классу MainChooser он будет выбираться во всех запросах
+        // Установка выбранного места (города) как текущего известного места (города) и обновление погодных данных о нём. Теперь при обращении к классу MainChooser он будет выбираться во всех запросах
         publisherDomain.notifyCity(city)
     }
 
@@ -96,7 +96,9 @@ class ResultCurrentFragment(//region ЗАДАНИЕ ПЕРЕМЕННЫХ
                     it.resultCurrentConstraintLayoutTemperatureValue?.text = "${updateState.mainChooserGetter.getDataWeather()?.temperature}"
                     it.resultCurrentConstraintLayoutFeelslikeValue?.text = "${updateState.mainChooserGetter.getDataWeather()?.feelsLike}"
                 }
-                Snackbar.make(bindingReal?.root!!, "Данные УСПЕШНО загружены", Snackbar.LENGTH_LONG).show()
+                bindingReal?.let {
+                    it.root.showSnackBarWithoutAction(it.root, resources.getString(R.string.success), Snackbar.LENGTH_SHORT)
+                }
             }
             UpdateState.Loading -> {
                 bindingReal?.resultCurrentConstraintLayoutLoadingLayout?.visibility = View.VISIBLE
@@ -104,9 +106,24 @@ class ResultCurrentFragment(//region ЗАДАНИЕ ПЕРЕМЕННЫХ
             is UpdateState.Error -> {
                 bindingReal?.resultCurrentConstraintLayoutLoadingLayout?.visibility = View.GONE
                 val throwable = updateState.error
-                Snackbar.make(bindingReal?.root!!, "ОШИБКА в загрузке данных: $throwable", Snackbar.LENGTH_LONG).show()
+                bindingReal?.let {
+                    it.root.showSnackBarWithAction(it.root, "${resources.getString(R.string.error)}: " + (throwable ?: resources.getString(R.string.error_no_connection)), resources.getString(R.string.try_another), Snackbar.LENGTH_LONG)
+                }
             }
         }
+    }
+
+    // Установка SnackBar с действием (В случае ошибки при загрузке погодных данных)
+    fun View.showSnackBarWithAction(view: View, messageText: String, actionText: String, showTime: Int) {
+        Snackbar.make(view, messageText, showTime).setAction(actionText, View.OnClickListener {
+            // Установка выбранного места (города) как текущего известного места (города) и обновление погодных данных о нём. Теперь при обращении к классу MainChooser он будет выбираться во всех запросах
+            publisherDomain.notifyCity(city)
+        }).show()
+    }
+
+    // Установка SnackBar без действия (в случае успешной загрузки погодных данных)
+    fun View.showSnackBarWithoutAction(view: View, string: String, showTime: Int) {
+        Snackbar.make(view, string, showTime).show()
     }
 
     // Удаление binding при закрытии фрагмента

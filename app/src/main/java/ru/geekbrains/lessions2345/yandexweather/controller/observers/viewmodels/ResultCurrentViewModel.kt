@@ -25,7 +25,7 @@ class ResultCurrentViewModel(
             postValue(UpdateState.Loading)
             Thread {
                 sleep(1000)
-                if (mainChooserGetter.getDataWeather()?.error == null) {
+                if ((mainChooserGetter.getDataWeather()?.error == null) && (mainChooserGetter.getDataWeather()?.temperature != null)) {
                     // УСПЕШНАЯ ПЕРЕДАЧА погодных данных в основном потоке через postValue (postValue два раза подряд использовать нельзя)
                     postValue(UpdateState.Success(mainChooserGetter))
                 } else {
