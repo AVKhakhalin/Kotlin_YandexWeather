@@ -93,11 +93,12 @@ class MainActivity:
             val countryStringArray: Array<String> = Array<String>(numberKnownCities) { i -> "country$i"}
             val knownCities: List<City>? = mainChooserGetter.getKnownCites("","")
             knownCities?.let{
-                it.forEachIndexed { index, element ->
+                var index: Int = 0
+                it.forEach { element ->
                     editor.putString(nameStringArray[index], element.name)
                     editor.putFloat(latStringArray[index], element.lat.toFloat())
                     editor.putFloat(lonStringArray[index], element.lon.toFloat())
-                    editor.putString(countryStringArray[index], element.country)
+                    editor.putString(countryStringArray[index++], element.country)
                 }
             }
         }
