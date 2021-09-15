@@ -105,7 +105,8 @@ class ResultCurrentFragment(//region ЗАДАНИЕ ПЕРЕМЕННЫХ
                 bindingReal?.resultCurrentConstraintLayoutLoadingLayout?.visibility = View.GONE
                 val throwable = updateState.error
                 bindingReal?.let {
-                    it.root.showSnackBarWithAction(it.root, "${resources.getString(R.string.error)}: " + (throwable ?: resources.getString(R.string.error_no_connection)), resources.getString(R.string.try_another), Snackbar.LENGTH_LONG)
+//                    it.root.showSnackBarWithAction(it.root, "${resources.getString(R.string.error)}: " + (throwable ?: resources.getString(R.string.error_no_connection)), resources.getString(R.string.try_another), Snackbar.LENGTH_LONG)
+                    it.root.showSnackBarWithAction(it.root, stickStringsValues()(resources.getString(R.string.error), throwable, resources.getString(R.string.error_no_connection)), resources.getString(R.string.try_another), Snackbar.LENGTH_LONG)
                 }
             }
         }
@@ -117,6 +118,13 @@ class ResultCurrentFragment(//region ЗАДАНИЕ ПЕРЕМЕННЫХ
             // Установка выбранного места (города) как текущего известного места (города) и обновление погодных данных о нём. Теперь при обращении к классу MainChooser он будет выбираться во всех запросах
             publisherDomain.notifyCity(city)
         }).show()
+    }
+
+    // Пример функции, которая возвращает другую функцию
+    fun stickStringsValues() : (errorValue: String, throwable: Throwable?, noConnectionValue: String) -> String {
+        return {errorValue, throwable, noConnectionValue ->
+            "$errorValue: " + (throwable ?: noConnectionValue)
+        }
     }
 
     // Установка SnackBar без действия (в случае успешной загрузки погодных данных)
